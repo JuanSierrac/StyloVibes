@@ -57,6 +57,7 @@ a:hover { color: var(--rosa-hover); }
 /* Cinta de estaciones: elemento distintivo de la marca */
 .season-ribbon { display: grid; gap: .75rem; }
 .season-row { display: grid; grid-template-columns: 6.2rem 1fr; align-items: center; gap: .9rem; background: var(--blanco); border: 1px solid var(--borde); border-radius: 1.2rem .4rem 1.2rem .4rem; padding: .65rem .9rem; }
+.season-row:hover {transform: translateY(-3px); box-shadow: 0 10px 24px rgba(59,51,64,.08); };
 .season-row:nth-child(even) { border-radius: .4rem 1.2rem .4rem 1.2rem; margin-left: 1.5rem; }
 .season-row strong { font-family: var(--fuente-display); font-size: 1rem; }
 .season-chips { display: flex; height: 2rem; border-radius: 999px; overflow: hidden; }
