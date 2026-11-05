@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Administración')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<div class="container-fluid">
+  <div class="row">
+    <aside th:replace="~{fragments/layout :: adminMenu}"></aside>
+    <main class="col py-4 px-md-4">
+<h1 class="h3 mb-4">Panel administrativo</h1>
+<div class="row g-3">
+  <div class="col-6 col-lg-3" th:each="s : ${stats}">
+    <div class="stat-card"><div class="num" th:text="${s.value}">0</div><div class="text-muted" th:text="${s.key}">Etiqueta</div></div>
+  </div>
+</div>
+    </main>
+  </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <h1 class="display-title">Tu imagen, entendida con calma y con criterio.</h1>
+      <p class="lead-text">StyloVibes es una guía gratuita de asesoría de imagen. Descubre qué cortes de ropa, peinados, colores y estilos van contigo, sin pagar a un asesor ni copiar modas ajenas.</p>
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-sv btn-lg" th:href="@{/diagnostico}">Empezar mi diagnóstico</a>
+        <a class="btn btn-sv-outline btn-lg" th:href="@{/colorimetria/test}">Hacer el test de color</a>
+      </div>
+    </div>
+    <div class="season-ribbon" aria-hidden="true">
+      <div class="season-row"><strong>Primavera</strong>
+        <div class="season-chips"><span style="background:#FF7F6B"></span><span style="background:#FFCBA4"></span><span style="background:#FFE680"></span><span style="background:#A8D86E"></span><span style="background:#4FD1C5"></span></div></div>
+      <div class="season-row"><strong>Verano</strong>
+        <div class="season-chips"><span style="background:#E8B4C8"></span><span style="background:#C3B1E1"></span><span style="background:#A7C7E7"></span><span style="background:#C9CED6"></span><span style="background:#B784A7"></span></div></div>
+      <div class="season-row"><strong>Otoño</strong>
+        <div class="season-chips"><span style="background:#C8643C"></span><span style="background:#D4A017"></span><span style="background:#6B7A2F"></span><span style="background:#5C3A21"></span><span style="background:#7B2D26"></span></div></div>
+      <div class="season-row"><strong>Invierno</strong>
+        <div class="season-chips"><span style="background:#0D0D0D"></span><span style="background:#1F4FD8"></span><span style="background:#D6006F"></span><span style="background:#0B7A4B"></span><span style="background:#B0122F"></span></div></div>
+    </div>
+  </div>
+</header>
+
+<section class="sv-section">
+  <div class="container">
+    <h2 class="sv-title">Cuatro herramientas, un solo perfil</h2>
+    <p class="sv-subtitle mb-4">Cada módulo te da información clara; el sistema de recomendaciones los une en un perfil completo cuando te registras.</p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <a class="text-decoration-none text-reset" th:href="@{/diagnostico}">
+          <div class="sv-card hover-lift"><div class="sv-icon tone-rosa"><i class="bi bi-person-standing"></i></div>
+            <h3 class="h5">Diagnóstico corporal</h3><p class="mb-0 text-muted">Tu tipología y las prendas que mejor trabajan con tus proporciones.</p></div></a>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <a class="text-decoration-none text-reset" th:href="@{/visagismo}">
+          <div class="sv-card hover-lift"><div class="sv-icon tone-lavanda"><i class="bi bi-emoji-smile"></i></div>
+            <h3 class="h5">Visagismo</h3><p class="mb-0 text-muted">Peinados, accesorios y gafas según la forma de tu rostro.</p></div></a>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <a class="text-decoration-none text-reset" th:href="@{/colorimetria}">
+          <div class="sv-card hover-lift"><div class="sv-icon tone-azul"><i class="bi bi-palette"></i></div>
+            <h3 class="h5">Colorimetría</h3><p class="mb-0 text-muted">Tu estación de color y una paleta que ilumina tu rostro.</p></div></a>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <a class="text-decoration-none text-reset" th:href="@{/estilos}">
+          <div class="sv-card hover-lift"><div class="sv-icon tone-beige"><i class="bi bi-bag-heart"></i></div>
+            <h3 class="h5">Estilos</h3><p class="mb-0 text-muted">De Old Money a Y2K: encuentra la estética que te representa.</p></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sv-section pt-0" th:if="${not #lists.isEmpty(estilos)}">
+  <div class="container">
+    <h2 class="sv-title">Estéticas para explorar</h2>
+    <div class="chip-row mt-3">
+      <a class="chip text-decoration-none" th:each="e : ${estilos}" th:href="@{/estilos/{id}(id=${e.id})}">
+        <span class="estilo-dot" th:style="|background:${e.colorPrincipal != null ? e.colorPrincipal : '#ddd'}|"></span><span th:text="${e.nombre}">Estilo</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sv-section pt-0" th:if="${not #lists.isEmpty(ultimosArticulos)}">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-3">
+      <h2 class="sv-title mb-0">Del blog</h2>
+      <a th:href="@{/blog}">Ver todos</a>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4" th:each="a : ${ultimosArticulos}">
+        <article class="sv-card hover-lift">
+          <span class="cat-pill mb-2" th:text="${a.categoriaNombre}">Categoría</span>
+          <h3 class="h5"><a class="text-reset text-decoration-none" th:href="@{/blog/{slug}(slug=${a.slug})}" th:text="${a.titulo}">Título</a></h3>
+          <p class="text-muted mb-0" th:text="${a.resumen}">Resumen</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

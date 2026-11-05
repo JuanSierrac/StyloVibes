@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${item.nombre})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<header class="detail-head">
+  <div class="container">
+    <a th:href="@{/colorimetria}" class="small">← Todas las estaciones</a>
+    <div class="alert alert-success mt-3" th:if="${param.test}">Según tus respuestas, tu estación probable es <strong th:text="${item.nombre}">Estación</strong>.</div>
+    <h1 class="sv-title mt-2" th:text="${item.nombre}">Estación</h1>
+    <p class="sv-subtitle mb-0" th:text="${item.descripcion}">Descripción</p>
+  </div>
+</header>
+<main class="container py-4">
+  <div th:replace="~{fragments/layout :: paleta('Paleta de colores', ${item.paletaColores})}"></div>
+  <div class="row g-4">
+    <div class="col-lg-6"><div th:replace="~{fragments/layout :: paleta('Colores ideales', ${item.coloresIdeales})}"></div></div>
+    <div class="col-lg-6"><div th:replace="~{fragments/layout :: paleta('Colores a evitar cerca del rostro', ${item.coloresEvitar})}"></div></div>
+  </div>
+  <div th:replace="~{fragments/layout :: lista('Ejemplos de looks', ${item.ejemplos}, '')}"></div>
+  <div th:replace="~{fragments/layout :: recs(${recomendaciones})}"></div>
+  <div class="sv-block">
+    <h3 class="h5">¿Esta es tu estación?</h3>
+    <div sec:authorize="isAuthenticated()">
+      <form th:action="@{/perfil/asignar/color/{id}(id=${item.id})}" method="post">
+        <button type="submit" class="btn btn-sv">Guardar en mi perfil</button>
+      </form>
+    </div>
+    <div sec:authorize="isAnonymous()"><a class="btn btn-sv-outline" th:href="@{/login}">Ingresa para guardarla</a></div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

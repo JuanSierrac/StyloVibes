@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Test de colorimetría')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section" style="max-width:48rem">
+  <h1 class="sv-title">Test de colorimetría</h1>
+  <p class="sv-subtitle mb-4">Responde con luz natural y sin maquillaje. Es una guía orientativa; puedes repetirlo cuando quieras.</p>
+  <form th:action="@{/colorimetria/test}" method="post" class="sv-card sv-form">
+    <fieldset class="quiz-q"><legend class="h6">1. ¿De qué color se ven las venas de tu muñeca?</legend>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q1" id="q1a" value="C" required><label class="form-check-label" for="q1a">Verdosas u oliva</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q1" id="q1b" value="F"><label class="form-check-label" for="q1b">Azules o moradas</label></div></fieldset>
+    <fieldset class="quiz-q"><legend class="h6">2. ¿Qué joyería te favorece más?</legend>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q2" id="q2a" value="C" required><label class="form-check-label" for="q2a">Dorada</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q2" id="q2b" value="F"><label class="form-check-label" for="q2b">Plateada</label></div></fieldset>
+    <fieldset class="quiz-q"><legend class="h6">3. ¿Cómo reacciona tu piel al sol?</legend>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q3" id="q3a" value="C" required><label class="form-check-label" for="q3a">Se broncea con tono dorado</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q3" id="q3b" value="F"><label class="form-check-label" for="q3b">Se enrojece o se broncea con dificultad</label></div></fieldset>
+    <fieldset class="quiz-q"><legend class="h6">4. ¿Cómo es tu cabello natural?</legend>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q4" id="q4a" value="L" required><label class="form-check-label" for="q4a">Rubio, castaño claro o pelirrojo claro</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q4" id="q4b" value="O"><label class="form-check-label" for="q4b">Castaño oscuro o negro</label></div></fieldset>
+    <fieldset class="quiz-q"><legend class="h6">5. ¿De qué color son tus ojos?</legend>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q5" id="q5a" value="L" required><label class="form-check-label" for="q5a">Claros (azules, verdes, miel claro)</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q5" id="q5b" value="O"><label class="form-check-label" for="q5b">Oscuros (café, negros)</label></div></fieldset>
+    <fieldset class="quiz-q"><legend class="h6">6. ¿Cómo describirías el tono de tu piel?</legend>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q6" id="q6a" value="L" required><label class="form-check-label" for="q6a">Clara a media-clara</label></div>
+      <div class="form-check"><input class="form-check-input" type="radio" name="q6" id="q6b" value="O"><label class="form-check-label" for="q6b">Media-oscura a profunda</label></div></fieldset>
+    <button type="submit" class="btn btn-sv mt-2">Ver mi estación</button>
+  </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

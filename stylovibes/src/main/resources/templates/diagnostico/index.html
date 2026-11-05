@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Diagnóstico corporal')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section">
+  <h1 class="sv-title">Diagnóstico corporal</h1>
+  <p class="sv-subtitle mb-4">Elige tu género y encuentra la tipología que mejor describe tus proporciones. Cada resultado incluye fortalezas, recomendaciones de vestuario y prendas a favor y en contra.</p>
+  <div class="d-flex gap-2 mb-4">
+    <a th:each="g : ${generos}" th:href="@{/diagnostico(genero=${g})}" th:text="${g.etiqueta}"
+       class="btn btn-sv-outline" th:classappend="${g == genero} ? 'active'">Género</a>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" th:each="t : ${tipos}">
+      <div class="sv-card hover-lift d-flex flex-column">
+        <div class="sv-icon tone-rosa"><i class="bi" th:classappend="${genero.name() == 'FEMENINO'} ? 'bi-gender-female' : 'bi-gender-male'"></i></div>
+        <h2 class="h5" th:text="${t.nombre}">Tipo</h2>
+        <p class="text-muted flex-grow-1" th:text="${#strings.abbreviate(t.descripcion, 140)}">Descripción</p>
+        <a class="btn btn-sv btn-sm align-self-start" th:href="@{/diagnostico/{id}(id=${t.id})}">Ver resultado</a>
+      </div>
+    </div>
+  </div>
+  <p class="text-muted mt-4" th:if="${#lists.isEmpty(tipos)}">Aún no hay tipologías disponibles.</p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

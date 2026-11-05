@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Mi perfil de imagen')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<header class="detail-head">
+  <div class="container">
+    <h1 class="sv-title" th:text="'Perfil de imagen de ' + ${resultado.nombreUsuario}">Perfil</h1>
+    <p class="sv-subtitle mb-3">Generado a partir de tu tipología corporal, rostro, colorimetría y estilo.</p>
+    <div class="progress" style="max-width:24rem" role="progressbar" th:attr="aria-valuenow=${resultado.completitud}" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar" th:style="|width:${resultado.completitud}%|"></div>
+    </div>
+    <small class="text-muted" th:text="${resultado.completitud} + '% completado'">0%</small>
+  </div>
+</header>
+<main class="container py-4">
+  <div class="alert alert-info" th:if="${resultado.completitud < 100}">
+    Completa las dimensiones que faltan para recibir recomendaciones más precisas.
+    <a th:href="@{/perfil}">Editar perfil</a>
+  </div>
+  <div class="row g-4 mb-2">
+    <div class="col-md-6 col-lg-3"><div class="sv-card"><div class="sv-icon tone-rosa"><i class="bi bi-person-standing"></i></div>
+      <h2 class="h6">Cuerpo</h2>
+      <div th:if="${resultado.tipoCorporal != null}"><p class="mb-1" th:text="${resultado.tipoCorporal.nombre}">—</p><a th:href="@{/diagnostico/{id}(id=${resultado.tipoCorporal.id})}">Ver detalle</a></div>
+      <a th:if="${resultado.tipoCorporal == null}" th:href="@{/diagnostico}">Definir</a></div></div>
+    <div class="col-md-6 col-lg-3"><div class="sv-card"><div class="sv-icon tone-lavanda"><i class="bi bi-emoji-smile"></i></div>
+      <h2 class="h6">Rostro</h2>
+      <div th:if="${resultado.tipoRostro != null}"><p class="mb-1" th:text="${resultado.tipoRostro.nombre}">—</p><a th:href="@{/visagismo/{id}(id=${resultado.tipoRostro.id})}">Ver detalle</a></div>
+      <a th:if="${resultado.tipoRostro == null}" th:href="@{/visagismo}">Definir</a></div></div>
+    <div class="col-md-6 col-lg-3"><div class="sv-card"><div class="sv-icon tone-azul"><i class="bi bi-palette"></i></div>
+      <h2 class="h6">Color</h2>
+      <div th:if="${resultado.colorimetria != null}"><p class="mb-1" th:text="${resultado.colorimetria.nombre}">—</p><a th:href="@{/colorimetria/{id}(id=${resultado.colorimetria.id})}">Ver paleta</a></div>
+      <a th:if="${resultado.colorimetria == null}" th:href="@{/colorimetria/test}">Hacer el test</a></div></div>
+    <div class="col-md-6 col-lg-3"><div class="sv-card"><div class="sv-icon tone-beige"><i class="bi bi-bag-heart"></i></div>
+      <h2 class="h6">Estilo</h2>
+      <div th:if="${resultado.estilo != null}"><p class="mb-1" th:text="${resultado.estilo.nombre}">—</p><a th:href="@{/estilos/{id}(id=${resultado.estilo.id})}">Ver detalle</a></div>
+      <a th:if="${resultado.estilo == null}" th:href="@{/estilos}">Elegir</a></div></div>
+  </div>
+
+  <div class="mt-4" th:if="${resultado.colorimetria != null}"
+       th:replace="~{fragments/layout :: paleta('Tu paleta ideal', ${resultado.colorimetria?.coloresIdeales})}"></div>
+
+  <div class="row g-4 mt-1">
+    <div class="col-lg-6">
+      <div th:replace="~{fragments/layout :: listaColeccion('Combinaciones sugeridas', ${resultado.combinaciones}, '')}"></div>
+      <div th:replace="~{fragments/layout :: recs(${resultado.recomendaciones})}"></div>
+    </div>
+    <div class="col-lg-6">
+      <div th:replace="~{fragments/layout :: listaColeccion('Consejos de imagen', ${resultado.consejos}, '')}"></div>
+      <div th:if="${resultado.tipoCorporal != null}"
+           th:replace="~{fragments/layout :: chips('Prendas a evitar', ${resultado.tipoCorporal?.prendasEvitar}, 'no')}"></div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

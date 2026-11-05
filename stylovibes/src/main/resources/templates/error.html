@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Error')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<main class="container py-5 text-center">
+  <h1 class="display-4" th:text="${status != null ? status : 'Ups'}">404</h1>
+  <p class="lead" th:text="${mensaje != null ? mensaje : 'No pudimos completar tu solicitud.'}">Mensaje</p>
+  <a class="btn btn-sv" th:href="@{/}">Volver al inicio</a>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

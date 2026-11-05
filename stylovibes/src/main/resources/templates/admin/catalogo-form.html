@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${recurso.titulo()})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<div class="container-fluid">
+  <div class="row">
+    <aside th:replace="~{fragments/layout :: adminMenu}"></aside>
+    <main class="col py-4 px-md-4">
+<h1 class="h3 mb-3" th:text="${item.id == null ? 'Nuevo: ' : 'Editar: '} + ${recurso.singular()}">Formulario</h1>
+<form th:action="@{/admin/catalogo/{s}/guardar(s=${recurso.slug()})}" method="post" class="sv-card sv-form" style="max-width:52rem">
+  <input type="hidden" name="id" th:value="${item.id}">
+  <div class="alert alert-danger" th:if="${not #lists.isEmpty(errores)}">
+    <ul class="mb-0"><li th:each="e : ${errores}" th:text="${e}">error</li></ul>
+  </div>
+  <div class="mb-3" th:each="f : ${recurso.campos()}" th:switch="${f.type()}">
+    <div th:case="'checkbox'" class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" th:id="${f.name()}" th:name="${f.name()}" th:checked="${item[f.name()]}">
+      <label class="form-check-label" th:for="${f.name()}" th:text="${f.label()}">Activo</label>
+    </div>
+    <div th:case="'textarea'">
+      <label class="form-label" th:for="${f.name()}" th:text="${f.label()}">Campo</label>
+      <textarea class="form-control" rows="4" th:id="${f.name()}" th:name="${f.name()}" th:text="${item[f.name()]}"></textarea>
+      <div class="form-text" th:if="${f.help() != null}" th:text="${f.help()}">ayuda</div>
+    </div>
+    <div th:case="'select'">
+      <label class="form-label" th:for="${f.name()}" th:text="${f.label()}">Campo</label>
+      <select class="form-select" th:id="${f.name()}" th:name="${f.name()}">
+        <option th:each="o : ${f.options()}" th:value="${o}" th:text="${o}"
+                th:selected="${item[f.name()] != null and item[f.name()].toString() == o}">op</option>
+      </select>
+    </div>
+    <div th:case="*">
+      <label class="form-label" th:for="${f.name()}" th:text="${f.label()}">Campo</label>
+      <input type="text" class="form-control" th:id="${f.name()}" th:name="${f.name()}" th:value="${item[f.name()]}">
+      <div class="form-text" th:if="${f.help() != null}" th:text="${f.help()}">ayuda</div>
+    </div>
+  </div>
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn btn-sv">Guardar</button>
+    <a class="btn btn-sv-outline" th:href="@{/admin/catalogo/{s}(s=${recurso.slug()})}">Cancelar</a>
+  </div>
+</form>
+    </main>
+  </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

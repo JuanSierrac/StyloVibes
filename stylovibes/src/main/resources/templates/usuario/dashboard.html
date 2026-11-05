@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Mi panel')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section">
+  <h1 class="sv-title" th:text="'Hola, ' + ${perfil.usuario.nombre}">Hola</h1>
+  <p class="sv-subtitle mb-4">Completa las cuatro dimensiones para obtener tu perfil de imagen personalizado.</p>
+  <div class="sv-card mb-4">
+    <div class="d-flex justify-content-between mb-2"><strong>Progreso de tu diagnóstico</strong><span th:text="${perfil.completitud} + '%'">0%</span></div>
+    <div class="progress" role="progressbar" th:attr="aria-valuenow=${perfil.completitud}" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-bar" th:style="|width:${perfil.completitud}%|"></div>
+    </div>
+    <div class="mt-3 d-flex flex-wrap gap-2">
+      <a class="btn btn-sv" th:href="@{/resultado}">Ver mi perfil de imagen</a>
+      <a class="btn btn-sv-outline" th:href="@{/perfil}">Editar perfil</a>
+    </div>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-3">
+      <div class="sv-card"><div class="sv-icon tone-rosa"><i class="bi bi-person-standing"></i></div>
+        <h2 class="h6">Tipo corporal</h2>
+        <p class="mb-2" th:text="${perfil.tipoCorporal != null ? perfil.tipoCorporal.nombre : 'Sin definir'}">—</p>
+        <a th:href="@{/diagnostico}">Explorar</a></div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="sv-card"><div class="sv-icon tone-lavanda"><i class="bi bi-emoji-smile"></i></div>
+        <h2 class="h6">Rostro</h2>
+        <p class="mb-2" th:text="${perfil.tipoRostro != null ? perfil.tipoRostro.nombre : 'Sin definir'}">—</p>
+        <a th:href="@{/visagismo}">Explorar</a></div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="sv-card"><div class="sv-icon tone-azul"><i class="bi bi-palette"></i></div>
+        <h2 class="h6">Estación de color</h2>
+        <p class="mb-2" th:text="${perfil.colorimetria != null ? perfil.colorimetria.nombre : 'Sin definir'}">—</p>
+        <a th:href="@{/colorimetria/test}">Hacer el test</a></div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div class="sv-card"><div class="sv-icon tone-beige"><i class="bi bi-bag-heart"></i></div>
+        <h2 class="h6">Estilo preferido</h2>
+        <p class="mb-2" th:text="${perfil.estiloPreferido != null ? perfil.estiloPreferido.nombre : 'Sin definir'}">—</p>
+        <a th:href="@{/estilos}">Explorar</a></div>
+    </div>
+  </div>
+  <section class="mt-5" th:if="${not #lists.isEmpty(ultimosArticulos)}">
+    <h2 class="h4 mb-3">Para leer</h2>
+    <div class="row g-4">
+      <div class="col-md-4" th:each="a : ${ultimosArticulos}">
+        <article class="sv-card"><h3 class="h6"><a th:href="@{/blog/{s}(s=${a.slug})}" th:text="${a.titulo}">Título</a></h3>
+          <p class="text-muted mb-0" th:text="${a.resumen}">Resumen</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

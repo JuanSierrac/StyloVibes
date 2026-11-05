@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${item.nombre})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<header class="detail-head">
+  <div class="container">
+    <a th:href="@{/diagnostico(genero=${item.genero})}" class="small">← Volver al diagnóstico</a>
+    <h1 class="sv-title mt-2" th:text="${item.nombre}">Tipo</h1>
+    <span class="chip" th:text="${item.genero.etiqueta}">Género</span>
+    <p class="sv-subtitle mt-3 mb-0" th:text="${item.descripcion}">Descripción</p>
+  </div>
+</header>
+<main class="container py-4">
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div th:replace="~{fragments/layout :: lista('Fortalezas', ${item.fortalezas}, '')}"></div>
+      <div th:replace="~{fragments/layout :: lista('Recomendaciones de vestuario', ${item.recomendacionesVestuario}, '')}"></div>
+      <div th:replace="~{fragments/layout :: recs(${recomendaciones})}"></div>
+    </div>
+    <div class="col-lg-5">
+      <div th:replace="~{fragments/layout :: chips('Prendas recomendadas', ${item.prendasRecomendadas}, 'ok')}"></div>
+      <div th:replace="~{fragments/layout :: chips('Prendas a evitar', ${item.prendasEvitar}, 'no')}"></div>
+      <div class="sv-block">
+        <h3 class="h5">¿Te identificas con este tipo?</h3>
+        <div sec:authorize="isAuthenticated()">
+          <form th:action="@{/perfil/asignar/cuerpo/{id}(id=${item.id})}" method="post">
+            <button type="submit" class="btn btn-sv">Guardar en mi perfil</button>
+          </form>
+        </div>
+        <div sec:authorize="isAnonymous()">
+          <p class="text-muted">Crea tu cuenta gratis para guardar el resultado y recibir recomendaciones combinadas.</p>
+          <a class="btn btn-sv-outline" th:href="@{/registro}">Crear cuenta</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${item.nombre})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<header class="detail-head" th:style="|border-top:10px solid ${item.colorPrincipal != null ? item.colorPrincipal : '#E4DCF3'}|">
+  <div class="container">
+    <a th:href="@{/estilos}" class="small">← Todos los estilos</a>
+    <h1 class="sv-title mt-2" th:text="${item.nombre}">Estilo</h1>
+    <p class="sv-subtitle mb-0" th:text="${item.descripcion}">Descripción</p>
+  </div>
+</header>
+<main class="container py-4">
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div th:replace="~{fragments/layout :: lista('Características', ${item.caracteristicas}, '')}"></div>
+      <div th:replace="~{fragments/layout :: lista('Ejemplos de looks', ${item.ejemplos}, '')}"></div>
+      <section class="sv-block" th:if="${not #strings.isEmpty(item.inspiracionVisual)}">
+        <h3 class="h5">Inspiración visual</h3>
+        <p class="mb-0" th:text="${item.inspiracionVisual}">Inspiración</p>
+      </section>
+    </div>
+    <div class="col-lg-6">
+      <div th:replace="~{fragments/layout :: chips('Prendas representativas', ${item.prendasRepresentativas}, '')}"></div>
+      <div th:replace="~{fragments/layout :: recs(${recomendaciones})}"></div>
+      <div class="sv-block">
+        <h3 class="h5">¿Es tu estilo?</h3>
+        <div sec:authorize="isAuthenticated()">
+          <form th:action="@{/perfil/asignar/estilo/{id}(id=${item.id})}" method="post">
+            <button type="submit" class="btn btn-sv">Elegir como mi estilo</button>
+          </form>
+        </div>
+        <div sec:authorize="isAnonymous()"><a class="btn btn-sv-outline" th:href="@{/login}">Ingresa para guardarlo</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

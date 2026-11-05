@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Nueva contraseña')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="auth-wrap">
+  <div class="auth-card">
+    <h1 class="h3 mb-1">Crea una nueva contraseña</h1>
+    <form th:action="@{/reset}" th:object="${reset}" method="post" class="sv-form mt-3" novalidate>
+      <input type="hidden" th:field="*{token}">
+      <div class="mb-3">
+        <label for="password" class="form-label">Nueva contraseña</label>
+        <input type="password" class="form-control" id="password" th:field="*{password}" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" autocomplete="new-password">
+        <div class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+      </div>
+      <div class="mb-3">
+        <label for="confirmarPassword" class="form-label">Confirmar contraseña</label>
+        <input type="password" class="form-control" id="confirmarPassword" th:field="*{confirmarPassword}" th:classappend="${#fields.hasErrors('confirmarPassword')} ? 'is-invalid'" autocomplete="new-password">
+        <div class="field-error" th:if="${#fields.hasErrors('confirmarPassword')}" th:errors="*{confirmarPassword}"></div>
+      </div>
+      <button type="submit" class="btn btn-sv w-100">Guardar contraseña</button>
+    </form>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${articulo.titulo})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container py-5" style="max-width:52rem">
+  <a th:href="@{/blog}" class="small">← Volver al blog</a>
+  <span class="cat-pill d-block mt-3" style="width:fit-content" th:text="${articulo.categoriaNombre}">Categoría</span>
+  <h1 class="sv-title mt-2" th:text="${articulo.titulo}">Título</h1>
+  <p class="article-meta">
+    <span th:text="${articulo.autorNombre}">Autor</span> ·
+    <span th:text="${#temporals.format(articulo.fechaCreacion, 'dd/MM/yyyy')}">fecha</span>
+  </p>
+  <p class="lead" th:text="${articulo.resumen}">Resumen</p>
+  <div class="article-body" th:text="${articulo.contenido}">Contenido</div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${recurso.titulo()})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<div class="container-fluid">
+  <div class="row">
+    <aside th:replace="~{fragments/layout :: adminMenu}"></aside>
+    <main class="col py-4 px-md-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0" th:text="${recurso.titulo()}">Catálogo</h1>
+  <a class="btn btn-sv" th:href="@{/admin/catalogo/{s}/nuevo(s=${recurso.slug()})}">Nuevo</a>
+</div>
+<div class="table-responsive">
+  <table class="table sv-table align-middle">
+    <thead><tr><th th:each="c : ${recurso.columnas()}" th:text="${c.label()}">Col</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="row : ${items}">
+        <td th:each="c : ${recurso.columnas()}">
+          <span th:if="${c.esCheckbox()}" class="badge" th:classappend="${row[c.name()]} ? 'text-bg-success' : 'text-bg-secondary'"
+                th:text="${row[c.name()]} ? 'Sí' : 'No'">Sí</span>
+          <span th:unless="${c.esCheckbox()}" th:text="${row[c.name()]}">valor</span>
+        </td>
+        <td class="text-end text-nowrap">
+          <a class="btn btn-sm btn-lavanda" th:href="@{/admin/catalogo/{s}/{id}/editar(s=${recurso.slug()},id=${row.id})}">Editar</a>
+          <form class="d-inline" method="post" data-confirm="¿Eliminar este registro?"
+                th:action="@{/admin/catalogo/{s}/{id}/eliminar(s=${recurso.slug()},id=${row.id})}">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+    </main>
+  </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

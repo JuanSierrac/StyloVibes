@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${item.nombre})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<header class="detail-head">
+  <div class="container">
+    <a th:href="@{/visagismo}" class="small">← Todos los rostros</a>
+    <h1 class="sv-title mt-2" th:text="'Rostro ' + ${#strings.toLowerCase(item.nombre)}">Rostro</h1>
+    <p class="sv-subtitle mb-0" th:text="${item.caracteristicas}">Características</p>
+  </div>
+</header>
+<main class="container py-4">
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div th:replace="~{fragments/layout :: lista('Peinados recomendados', ${item.peinadosRecomendados}, '')}"></div>
+      <div th:replace="~{fragments/layout :: lista('Recomendaciones estéticas generales', ${item.recomendacionesGenerales}, '')}"></div>
+      <div th:replace="~{fragments/layout :: recs(${recomendaciones})}"></div>
+    </div>
+    <div class="col-lg-6">
+      <div th:replace="~{fragments/layout :: chips('Accesorios recomendados', ${item.accesoriosRecomendados}, '')}"></div>
+      <div th:replace="~{fragments/layout :: chips('Gafas recomendadas', ${item.gafasRecomendadas}, 'ok')}"></div>
+      <div class="sv-block">
+        <h3 class="h5">¿Es tu tipo de rostro?</h3>
+        <div sec:authorize="isAuthenticated()">
+          <form th:action="@{/perfil/asignar/rostro/{id}(id=${item.id})}" method="post">
+            <button type="submit" class="btn btn-sv">Guardar en mi perfil</button>
+          </form>
+        </div>
+        <div sec:authorize="isAnonymous()"><a class="btn btn-sv-outline" th:href="@{/login}">Ingresa para guardarlo</a></div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

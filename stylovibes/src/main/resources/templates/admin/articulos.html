@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Artículos')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<div class="container-fluid">
+  <div class="row">
+    <aside th:replace="~{fragments/layout :: adminMenu}"></aside>
+    <main class="col py-4 px-md-4">
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Artículos</h1>
+  <a class="btn btn-sv" th:href="@{/admin/articulos/nuevo}">Nuevo artículo</a>
+</div>
+<div class="table-responsive">
+  <table class="table sv-table align-middle">
+    <thead><tr><th>Título</th><th>Categoría</th><th>Autor</th><th>Estado</th><th></th></tr></thead>
+    <tbody>
+      <tr th:each="a : ${items}">
+        <td th:text="${a.titulo}">Título</td>
+        <td th:text="${a.categoriaNombre}">Categoría</td>
+        <td th:text="${a.autorNombre}">Autor</td>
+        <td><span class="badge" th:classappend="${a.publicado} ? 'text-bg-success' : 'text-bg-secondary'" th:text="${a.publicado ? 'Publicado' : 'Borrador'}">Estado</span></td>
+        <td class="text-end text-nowrap">
+          <a class="btn btn-sm btn-lavanda" th:href="@{/admin/articulos/{id}/editar(id=${a.id})}">Editar</a>
+          <form class="d-inline" method="post" data-confirm="¿Eliminar este artículo?" th:action="@{/admin/articulos/{id}/eliminar(id=${a.id})}">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+    </main>
+  </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

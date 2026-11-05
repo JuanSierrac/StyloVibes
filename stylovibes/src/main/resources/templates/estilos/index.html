@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Estilos')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section">
+  <h1 class="sv-title">Estilos</h1>
+  <p class="sv-subtitle mb-4">Seis estéticas para inspirarte. Mezcla, adapta y quédate con lo que se sienta tuyo.</p>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" th:each="e : ${items}">
+      <div class="sv-card hover-lift d-flex flex-column">
+        <div class="estilo-banner" th:style="|background:linear-gradient(135deg, ${e.colorPrincipal != null ? e.colorPrincipal : '#E4DCF3'}, #ffffff)|"></div>
+        <h2 class="h5" th:text="${e.nombre}">Estilo</h2>
+        <p class="text-muted flex-grow-1" th:text="${#strings.abbreviate(e.descripcion, 120)}">Descripción</p>
+        <a class="btn btn-sv btn-sm align-self-start" th:href="@{/estilos/{id}(id=${e.id})}">Explorar estilo</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

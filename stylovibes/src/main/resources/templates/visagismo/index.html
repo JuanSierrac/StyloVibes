@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Visagismo')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section">
+  <h1 class="sv-title">Visagismo</h1>
+  <p class="sv-subtitle mb-4">El visagismo estudia la forma del rostro para elegir peinados, accesorios y gafas que armonicen con tus rasgos.</p>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" th:each="r : ${items}">
+      <div class="sv-card hover-lift d-flex flex-column">
+        <div class="sv-icon tone-lavanda"><i class="bi bi-emoji-smile"></i></div>
+        <h2 class="h5" th:text="${r.nombre}">Rostro</h2>
+        <p class="text-muted flex-grow-1" th:text="${#strings.abbreviate(r.caracteristicas, 130)}">Características</p>
+        <a class="btn btn-sv btn-sm align-self-start" th:href="@{/visagismo/{id}(id=${r.id})}">Ver recomendaciones</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

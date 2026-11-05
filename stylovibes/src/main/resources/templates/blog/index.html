@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Blog')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section">
+  <h1 class="sv-title">Blog</h1>
+  <p class="sv-subtitle mb-3">Imagen personal, colorimetría, moda, autoestima y desarrollo personal.</p>
+  <div class="chip-row mb-4">
+    <a class="chip text-decoration-none" th:classappend="${categoriaActual == null} ? 'ok'" th:href="@{/blog}">Todas</a>
+    <a class="chip text-decoration-none" th:each="c : ${categorias}" th:classappend="${categoriaActual != null and categoriaActual == c.id} ? 'ok'"
+       th:href="@{/blog(categoria=${c.id})}" th:text="${c.nombre}">Categoría</a>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" th:each="a : ${articulos}">
+      <article class="sv-card hover-lift d-flex flex-column">
+        <span class="cat-pill align-self-start mb-2" th:text="${a.categoriaNombre}">Categoría</span>
+        <h2 class="h5"><a class="text-reset text-decoration-none" th:href="@{/blog/{slug}(slug=${a.slug})}" th:text="${a.titulo}">Título</a></h2>
+        <p class="text-muted flex-grow-1" th:text="${a.resumen}">Resumen</p>
+        <small class="article-meta" th:text="${#temporals.format(a.fechaCreacion, 'dd/MM/yyyy')}">fecha</small>
+      </article>
+    </div>
+  </div>
+  <p class="text-muted" th:if="${#lists.isEmpty(articulos)}">No hay publicaciones en esta categoría todavía.</p>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

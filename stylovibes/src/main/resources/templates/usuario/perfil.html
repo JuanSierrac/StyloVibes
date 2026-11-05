@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Mi perfil')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section" style="max-width:50rem">
+  <h1 class="sv-title">Mi perfil</h1>
+  <form th:action="@{/perfil}" th:object="${form}" method="post" class="sv-card sv-form mt-3" novalidate>
+    <div class="row g-3">
+      <div class="col-sm-6">
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="nombre" th:field="*{nombre}">
+        <div class="field-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+      </div>
+      <div class="col-sm-6">
+        <label for="apellido" class="form-label">Apellido</label>
+        <input type="text" class="form-control" id="apellido" th:field="*{apellido}">
+        <div class="field-error" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></div>
+      </div>
+      <div class="col-sm-6">
+        <label for="genero" class="form-label">Género</label>
+        <select class="form-select" id="genero" th:field="*{genero}">
+          <option value="">Sin definir</option>
+          <option th:each="g : ${generos}" th:value="${g}" th:text="${g.etiqueta}">Género</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="tipoCorporalId" class="form-label">Tipo corporal</label>
+        <select class="form-select" id="tipoCorporalId" th:field="*{tipoCorporalId}">
+          <option value="">Sin definir</option>
+          <option th:each="t : ${tiposCorporales}" th:value="${t.id}" th:text="${t.nombre + ' (' + t.genero.etiqueta + ')'}">Tipo</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="tipoRostroId" class="form-label">Tipo de rostro</label>
+        <select class="form-select" id="tipoRostroId" th:field="*{tipoRostroId}">
+          <option value="">Sin definir</option>
+          <option th:each="t : ${tiposRostro}" th:value="${t.id}" th:text="${t.nombre}">Rostro</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="colorimetriaId" class="form-label">Estación de color</label>
+        <select class="form-select" id="colorimetriaId" th:field="*{colorimetriaId}">
+          <option value="">Sin definir</option>
+          <option th:each="c : ${colorimetrias}" th:value="${c.id}" th:text="${c.nombre}">Estación</option>
+        </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="estiloId" class="form-label">Estilo preferido</label>
+        <select class="form-select" id="estiloId" th:field="*{estiloId}">
+          <option value="">Sin definir</option>
+          <option th:each="e : ${estilos}" th:value="${e.id}" th:text="${e.nombre}">Estilo</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label for="bio" class="form-label">Sobre ti (opcional)</label>
+        <textarea class="form-control" id="bio" rows="3" th:field="*{bio}"></textarea>
+        <div class="field-error" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></div>
+      </div>
+    </div>
+    <div class="mt-4 d-flex gap-2">
+      <button type="submit" class="btn btn-sv">Guardar cambios</button>
+      <a class="btn btn-sv-outline" th:href="@{/dashboard}">Cancelar</a>
+    </div>
+  </form>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

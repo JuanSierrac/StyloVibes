@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Colorimetría')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container sv-section">
+  <h1 class="sv-title">Colorimetría</h1>
+  <p class="sv-subtitle mb-3">Cuatro estaciones, cuatro paletas. Identifica la tuya con nuestro test o explora cada una.</p>
+  <a class="btn btn-sv mb-4" th:href="@{/colorimetria/test}">Hacer el test de colorimetría</a>
+  <div class="row g-4">
+    <div class="col-md-6" th:each="c : ${items}">
+      <div class="sv-card hover-lift">
+        <h2 class="h4" th:text="${c.nombre}">Estación</h2>
+        <p class="text-muted" th:text="${c.descripcion}">Descripción</p>
+        <div class="swatch-row mb-3">
+          <figure class="swatch-item" style="width:3.2rem" th:each="x : ${#strings.listSplit(c.paletaColores, ';')}" th:with="p=${#strings.arraySplit(x, ':')}">
+            <span class="swatch" th:style="|width:3.2rem;height:3.2rem;background:${p.length > 1 ? p[1] : '#ccc'}|" th:title="${p[0]}"></span>
+          </figure>
+        </div>
+        <a class="btn btn-sv btn-sm" th:href="@{/colorimetria/{id}(id=${c.id})}">Ver paleta completa</a>
+      </div>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

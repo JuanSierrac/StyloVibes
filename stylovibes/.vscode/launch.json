@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "StyloVibes",
+      "request": "launch",
+      "mainClass": "com.stylovibes.StyloVibesApplication",
+      "projectName": "stylovibes",
+      "env": {
+        "DB_USER": "root",
+        "DB_PASSWORD": "root"
+      }
+    }
+  ]
+}

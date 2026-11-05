@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Recomendación')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<div class="container-fluid">
+  <div class="row">
+    <aside th:replace="~{fragments/layout :: adminMenu}"></aside>
+    <main class="col py-4 px-md-4">
+<h1 class="h3 mb-3" th:text="${form.id == null} ? 'Nueva recomendación' : 'Editar recomendación'">Recomendación</h1>
+<div class="alert alert-danger" th:if="${ko != null}" th:text="${ko}"></div>
+<form th:action="@{/admin/recomendaciones/guardar}" th:object="${form}" method="post" class="sv-card sv-form" style="max-width:52rem" novalidate>
+  <input type="hidden" th:field="*{id}">
+  <div class="mb-3">
+    <label class="form-label" for="titulo">Título</label>
+    <input type="text" class="form-control" id="titulo" th:field="*{titulo}">
+    <div class="field-error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="contenido">Contenido</label>
+    <textarea class="form-control" rows="5" id="contenido" th:field="*{contenido}"></textarea>
+    <div class="field-error" th:if="${#fields.hasErrors('contenido')}" th:errors="*{contenido}"></div>
+  </div>
+  <p class="text-muted small">Asocia la recomendación al menos a una dimensión.</p>
+  <div class="row g-3 mb-3">
+    <div class="col-md-6"><label class="form-label" for="tipoCorporalId">Tipo corporal</label>
+      <select class="form-select" id="tipoCorporalId" th:field="*{tipoCorporalId}"><option value="">—</option>
+        <option th:each="t : ${tiposCorporales}" th:value="${t.id}" th:text="${t.nombre + ' (' + t.genero.etiqueta + ')'}">T</option></select></div>
+    <div class="col-md-6"><label class="form-label" for="tipoRostroId">Tipo de rostro</label>
+      <select class="form-select" id="tipoRostroId" th:field="*{tipoRostroId}"><option value="">—</option>
+        <option th:each="t : ${tiposRostro}" th:value="${t.id}" th:text="${t.nombre}">T</option></select></div>
+    <div class="col-md-6"><label class="form-label" for="colorimetriaId">Estación de color</label>
+      <select class="form-select" id="colorimetriaId" th:field="*{colorimetriaId}"><option value="">—</option>
+        <option th:each="c : ${colorimetrias}" th:value="${c.id}" th:text="${c.nombre}">C</option></select></div>
+    <div class="col-md-6"><label class="form-label" for="estiloId">Estilo</label>
+      <select class="form-select" id="estiloId" th:field="*{estiloId}"><option value="">—</option>
+        <option th:each="e : ${estilos}" th:value="${e.id}" th:text="${e.nombre}">E</option></select></div>
+  </div>
+  <div class="form-check form-switch mb-4">
+    <input class="form-check-input" type="checkbox" id="activo" th:field="*{activo}">
+    <label class="form-check-label" for="activo">Activa</label>
+  </div>
+  <div class="d-flex gap-2">
+    <button type="submit" class="btn btn-sv">Guardar</button>
+    <a class="btn btn-sv-outline" th:href="@{/admin/recomendaciones}">Cancelar</a>
+  </div>
+</form>
+    </main>
+  </div>
+</div>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
