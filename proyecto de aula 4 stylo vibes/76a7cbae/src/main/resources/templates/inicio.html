@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{comunes :: head('Inicio')}"></head>
+<body>
+<div th:replace="~{comunes :: barra}"></div>
+
+<main class="contenedor">
+    <section class="hero">
+        <div class="hero__texto">
+            <span class="etiqueta">Diagnóstico de imagen personal</span>
+            <h1 th:text="${hero != null ? hero.titulo : 'Tu estilo, tu esencia'}">Tu estilo, tu esencia</h1>
+            <p class="hero__bajada" th:text="${hero != null ? hero.texto : ''}"></p>
+            <div class="hero__acciones">
+                <a sec:authorize="!isAuthenticated()" class="boton boton--grande" th:href="@{/registro}">Comenzar mi diagnóstico</a>
+                <a sec:authorize="hasRole('USUARIO')" class="boton boton--grande" th:href="@{/app}">Continuar mi diagnóstico</a>
+                <a sec:authorize="hasRole('ADMINISTRADOR')" class="boton boton--grande" th:href="@{/admin}">Ir al panel admin</a>
+                <a class="boton boton--suave boton--grande" th:href="@{#niveles}">Ver los 5 niveles</a>
+            </div>
+            <ul class="hero__datos">
+                <li><strong>5</strong> niveles guiados</li>
+                <li><strong>0</strong> fotos personales</li>
+                <li><strong>100%</strong> inclusivo</li>
+            </ul>
+        </div>
+        <div class="hero__imagen">
+            <img th:src="@{/img/hero.png}" alt="Ilustración de jóvenes con estilos y colores diversos">
+            <span class="hero__sticker hero__sticker--rosa">Tu esencia</span>
+            <span class="hero__sticker hero__sticker--menta">Sin reglas rígidas</span>
+        </div>
+    </section>
+
+    <section class="seccion" id="niveles">
+        <div class="seccion__cabecera">
+            <span class="etiqueta etiqueta--lila">El recorrido</span>
+            <h2>Cinco niveles para conocerte mejor</h2>
+            <p>Avanzas en orden, un nivel a la vez. Tus respuestas y tu progreso quedan guardados en tu espacio personal.</p>
+        </div>
+        <div class="rejilla rejilla--niveles">
+            <article class="tarjeta tarjeta--nivel" th:each="nivel : ${niveles}">
+                <div class="tarjeta--nivel__imagen">
+                    <img th:src="${nivel.imagen}" th:alt="${nivel.titulo}">
+                    <span class="numero" th:text="${nivel.numero}">1</span>
+                </div>
+                <div class="tarjeta__cuerpo">
+                    <h3 th:text="${nivel.titulo}">Tipo de rostro</h3>
+                    <p th:text="${nivel.subtitulo}"></p>
+                    <span class="nota">Se desbloquea al completar el nivel anterior</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="seccion panel-doble panel-doble--menta">
+        <div class="panel-doble__texto">
+            <span class="etiqueta etiqueta--menta">Bienvenida</span>
+            <h2 th:text="${bienvenida != null ? bienvenida.titulo : 'Un diagnóstico sin reglas rígidas'}"></h2>
+            <p th:text="${bienvenida != null ? bienvenida.texto : ''}"></p>
+            <ul class="lista-ticks">
+                <li>Recomendaciones de cortes, maquillaje, colores y prendas.</li>
+                <li>Un catálogo personal con tu estilo, guardado en tu cuenta.</li>
+                <li>Un enfoque respetuoso: ningún cuerpo ni rostro es incorrecto.</li>
+            </ul>
+        </div>
+        <div class="panel-doble__imagen">
+            <img th:src="${bienvenida != null and bienvenida.imagen != null ? bienvenida.imagen : '/img/catalogo-mixto.png'}"
+                 alt="Collage pastel de moda y cuidado personal">
+        </div>
+    </section>
+
+    <section class="seccion" id="catalogo">
+        <div class="seccion__cabecera">
+            <span class="etiqueta etiqueta--durazno">Mi estilo, mi esencia</span>
+            <h2>Tu catálogo personal en 8 secciones</h2>
+            <p th:text="${catalogoIntro != null ? catalogoIntro.texto : ''}"></p>
+        </div>
+        <div class="panel-catalogo">
+            <div class="panel-catalogo__imagen">
+                <img th:src="@{/img/catalogo-mixto.png}" alt="Ilustración de un catálogo de moda en tonos pastel">
+            </div>
+            <div class="panel-catalogo__lista">
+                <ol class="secciones-lista">
+                    <li>Rostro y cortes</li>
+                    <li>Facciones y cuidado facial</li>
+                    <li>Colorimetría y paletas</li>
+                    <li>Tipo de cuerpo y vestuario</li>
+                    <li>Estilo personal</li>
+                    <li>Outfits y combinaciones</li>
+                    <li>Accesorios</li>
+                    <li>Consejos de presentación</li>
+                </ol>
+                <a sec:authorize="!isAuthenticated()" class="boton" th:href="@{/registro}">Crear mi cuenta</a>
+                <a sec:authorize="hasRole('USUARIO')" class="boton" th:href="@{/app/catalogo}">Ver mi catálogo</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion">
+        <div class="seccion__cabecera">
+            <span class="etiqueta etiqueta--amarillo">Nuestros valores</span>
+            <h2>Diversidad, confianza y expresión</h2>
+        </div>
+        <div class="rejilla rejilla--valores">
+            <article class="tarjeta tarjeta--valor tarjeta--menta">
+                <h3>Diversidad</h3>
+                <p>Celebramos todos los cuerpos, rostros, identidades y estilos. No hay una única forma de verse bien.</p>
+            </article>
+            <article class="tarjeta tarjeta--valor tarjeta--rosa">
+                <h3>Confianza</h3>
+                <p>La información está para acompañarte. Tú decides qué tomar y qué dejar: tu comodidad es lo primero.</p>
+            </article>
+            <article class="tarjeta tarjeta--valor tarjeta--lila">
+                <h3>Expresión</h3>
+                <p>La moda y el cuidado personal son herramientas para jugar, descubrir y mostrar quién eres.</p>
+            </article>
+        </div>
+        <div class="rejilla rejilla--valores" th:if="${consejos != null and !consejos.isEmpty()}">
+            <article class="mini-tarjeta" th:each="c : ${consejos}">
+                <h4 th:text="${c.titulo}">Consejos</h4>
+                <p th:text="${c.texto}"></p>
+            </article>
+        </div>
+    </section>
+
+    <section class="llamado">
+        <h2>¿Listo para descubrir lo que te hace único?</h2>
+        <p>Crea tu cuenta, completa los 5 niveles y recibe tu catálogo personal "Mi estilo, mi esencia".</p>
+        <div class="llamado__acciones">
+            <a sec:authorize="!isAuthenticated()" class="boton boton--grande" th:href="@{/registro}">Quiero empezar</a>
+            <a sec:authorize="!isAuthenticated()" class="boton boton--suave boton--grande" th:href="@{/login}">Ya tengo cuenta</a>
+            <a sec:authorize="isAuthenticated()" class="boton boton--grande" th:href="@{/app}">Ir a mi espacio</a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

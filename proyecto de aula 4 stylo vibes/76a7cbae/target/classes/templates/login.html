@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{comunes :: head('Iniciar sesión')}"></head>
+<body>
+<div th:replace="~{comunes :: barra}"></div>
+
+<main class="contenedor contenedor--angosto">
+    <div class="panel-doble panel-doble--registro">
+        <section class="formulario-panel">
+            <span class="etiqueta etiqueta--lila">Hola de nuevo</span>
+            <h1>Inicia sesión</h1>
+            <p class="texto-suave">Entra para continuar tu diagnóstico, ver tus resultados o consultar tu catálogo.</p>
+
+            <div class="aviso aviso--ok" th:if="${param.registrado}">¡Cuenta creada! Inicia sesión para comenzar.</div>
+            <div class="aviso aviso--error" th:if="${param.error}">El correo o la contraseña no coinciden. Inténtalo otra vez.</div>
+            <div class="aviso aviso--ok" th:if="${param.salido}">Cerraste sesión correctamente. ¡Hasta pronto!</div>
+
+            <form th:action="@{/login}" method="post" class="formulario">
+                <div class="campo">
+                    <label for="username">Correo electrónico</label>
+                    <input id="username" name="username" type="email" autocomplete="email" required>
+                </div>
+                <div class="campo">
+                    <label for="password">Contraseña</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="boton boton--grande boton--ancho">Entrar a mi espacio</button>
+                <p class="formulario__pie">¿Aún no tienes cuenta? <a th:href="@{/registro}">Créala aquí</a></p>
+            </form>
+            <p class="nota nota--centro">¿Eres parte del equipo administrativo? <a th:href="@{/admin/login}">Acceso administrativo</a></p>
+        </section>
+
+        <aside class="lado-decorado lado-decorado--lila">
+            <h2>Tu espacio personal</h2>
+            <p>Guarda tu progreso, consulta tus resultados y vuelve a tu catálogo "Mi estilo, mi esencia" cuando quieras.</p>
+            <ul class="lista-ticks">
+                <li>Progreso guardado nivel a nivel.</li>
+                <li>Resultados explicados paso a paso.</li>
+                <li>Recomendaciones de cortes, colores, prendas y accesorios.</li>
+            </ul>
+            <div class="ilustracion-decorada">
+                <img th:src="@{/img/nivel-3-mixto.png}" alt="Ilustración de paletas de color pastel">
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

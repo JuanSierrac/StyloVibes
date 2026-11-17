@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{comunes :: head('Configuración administrativa')}"></head>
+<body class="fondo-admin">
+<main class="contenedor contenedor--angosto">
+    <div class="marca marca--centrada">
+        <a th:href="@{/}" class="marca">
+            <span class="marca__icono" aria-hidden="true"><img th:src="@{/img/logo.svg}" alt=""></span>
+            <span class="marca__texto">Stylo <em>Vibes</em> <small>admin</small></span>
+        </a>
+    </div>
+    <section class="formulario-panel formulario-panel--solo">
+        <span class="etiqueta etiqueta--lila">Primera configuración</span>
+        <h1>Crea la cuenta administradora</h1>
+        <p class="texto-suave">Solo se puede crear una vez, desde este equipo y mientras no exista otra cuenta administrativa. No hay contraseñas predeterminadas.</p>
+
+        <div class="aviso aviso--error" th:if="${error}" th:text="${error}"></div>
+
+        <form th:action="@{/admin/configuracion-inicial}" th:object="${adminForm}" method="post" class="formulario" novalidate>
+            <div class="campo-doble">
+                <div class="campo">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" type="text" th:field="*{nombre}" autocomplete="given-name" maxlength="80">
+                    <p class="campo__error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></p>
+                </div>
+                <div class="campo">
+                    <label for="apellido">Apellido</label>
+                    <input id="apellido" type="text" th:field="*{apellido}" autocomplete="family-name" maxlength="80">
+                    <p class="campo__error" th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="email">Correo administrativo</label>
+                <input id="email" type="email" th:field="*{email}" autocomplete="email" maxlength="160">
+                <p class="campo__error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+
+            <div class="campo-doble">
+                <div class="campo">
+                    <label for="password">Contraseña</label>
+                    <input id="password" type="password" th:field="*{password}" autocomplete="new-password" minlength="10">
+                    <p class="campo__ayuda">Mínimo 10 caracteres. No uses una clave de otros sitios.</p>
+                    <p class="campo__error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                </div>
+                <div class="campo">
+                    <label for="confirmarPassword">Repite la contraseña</label>
+                    <input id="confirmarPassword" type="password" th:field="*{confirmarPassword}" autocomplete="new-password">
+                    <p class="campo__error" th:if="${#fields.hasErrors('confirmarPassword')}" th:errors="*{confirmarPassword}"></p>
+                </div>
+            </div>
+
+            <label class="casilla">
+                <input type="checkbox" th:field="*{autorizacion}">
+                <span>Autorizo el tratamiento de mis datos para administrar la plataforma, conforme a la Ley 1581 de 2012. Puedo consultar, actualizar o solicitar la eliminación de mis datos.</span>
+            </label>
+            <p class="campo__error" th:if="${#fields.hasErrors('autorizacion')}" th:errors="*{autorizacion}"></p>
+
+            <button type="submit" class="boton boton--grande boton--ancho">Crear cuenta y entrar</button>
+        </form>
+
+        <p class="nota nota--centro">¿Ya creaste la cuenta? <a th:href="@{/admin/login}">Inicia sesión</a>.</p>
+        <p class="nota nota--centro">Esta página deja de estar disponible cuando ya existe una cuenta administradora.</p>
+    </section>
+</main>
+</body>
+</html>

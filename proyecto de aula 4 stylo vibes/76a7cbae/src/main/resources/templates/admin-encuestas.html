@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{comunes :: head('Encuestas')}"></head>
+<body>
+<div th:replace="~{comunes :: barraAdmin}"></div>
+
+<main class="contenedor">
+    <div th:replace="~{comunes :: avisos}"></div>
+    <header class="cabecera-app">
+        <div>
+            <span class="etiqueta etiqueta--lila">Administración</span>
+            <h1>Respuestas del diagnóstico</h1>
+            <p class="texto-suave">Revisa las respuestas guardadas y los resultados calculados de cada cuenta.</p>
+        </div>
+        <div class="cabecera-app__acciones">
+            <a class="boton boton--suave" th:href="@{/admin/usuarios}">Ver usuarios</a>
+        </div>
+    </header>
+
+    <section class="lista-encuestas">
+        <article class="tarjeta tarjeta--encuesta" th:each="e : ${encuestas}">
+            <div class="fila-entre">
+                <div class="usuario-cabecera">
+                    <div class="avatar-simple" th:text="${#strings.substring(e.usuario.nombre, 0, 1)}">A</div>
+                    <div>
+                        <h3 th:text="${e.usuario.nombreCompleto}">Ana Pérez</h3>
+                        <span class="nota" th:text="${e.usuario.email}">ana@correo.com</span>
+                    </div>
+                </div>
+                <span class="chip chip--estilo" th:text="${e.porcentaje} + '% completado'">0% completado</span>
+            </div>
+
+            <div class="chips">
+                <span class="chip chip--menta" th:text="'Rostro: ' + ${e.rostro}">Rostro</span>
+                <span class="chip chip--lila" th:text="'Estación: ' + ${e.estacion}">Estación</span>
+                <span class="chip chip--rosa" th:text="'Cuerpo: ' + ${e.cuerpo}">Cuerpo</span>
+                <span class="chip chip--estilo" th:text="'Estilos: ' + ${e.estilos}">Estilos</span>
+            </div>
+
+            <details class="acordeon" th:each="r : ${e.respuestas}">
+                <summary th:text="${r.titulo}">Nivel 1</summary>
+                <p class="respuestas-texto" th:text="${r.detalle}"></p>
+            </details>
+            <p class="texto-suave" th:if="${e.respuestas.isEmpty()}">Esta cuenta aún no ha completado ningún nivel.</p>
+        </article>
+        <p class="texto-suave" th:if="${encuestas.isEmpty()}">Aún no hay respuestas para mostrar.</p>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

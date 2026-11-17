@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{comunes :: head(${editando ? 'Editar contenido' : 'Nuevo contenido'})}"></head>
+<body>
+<div th:replace="~{comunes :: barraAdmin}"></div>
+
+<main class="contenedor contenedor--angosto">
+    <nav class="migas" aria-label="Ruta de navegación">
+        <a th:href="@{/admin}">Panel</a>
+        <span aria-hidden="true">/</span>
+        <a th:href="@{/admin/contenidos}">Contenidos</a>
+        <span aria-hidden="true">/</span>
+        <span th:text="${editando ? 'Editar' : 'Nuevo'}">Nuevo</span>
+    </nav>
+
+    <section class="formulario-panel">
+        <span class="etiqueta etiqueta--lila">Contenido</span>
+        <h1 th:text="${editando ? 'Editar contenido' : 'Crear contenido'}">Crear contenido</h1>
+        <p class="texto-suave">Los bloques publicados aparecen en las secciones del sitio público y en los niveles del diagnóstico.</p>
+
+        <form th:action="@{/admin/contenidos}" th:object="${contenido}" method="post" class="formulario">
+            <input type="hidden" th:field="*{id}">
+            <div class="campo-doble">
+                <div class="campo">
+                    <label for="clave">Clave interna</label>
+                    <input id="clave" type="text" th:field="*{clave}" maxlength="80" placeholder="ejemplo: nivel-1">
+                    <p class="campo__ayuda">Identifica el bloque. No debe repetirse.</p>
+                    <p class="campo__error" th:if="${#fields.hasErrors('clave')}" th:errors="*{clave}"></p>
+                </div>
+                <div class="campo">
+                    <label for="seccion">Sección</label>
+                    <select id="seccion" th:field="*{seccion}">
+                        <option th:each="s : ${seccionesContenido}" th:value="${s}" th:text="${s.titulo}">Inicio</option>
+                    </select>
+                    <p class="campo__error" th:if="${#fields.hasErrors('seccion')}" th:errors="*{seccion}"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="titulo">Título</label>
+                <input id="titulo" type="text" th:field="*{titulo}" maxlength="150">
+                <p class="campo__error" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></p>
+            </div>
+
+            <div class="campo">
+                <label for="texto">Texto</label>
+                <textarea id="texto" th:field="*{texto}" rows="6"></textarea>
+                <p class="campo__error" th:if="${#fields.hasErrors('texto')}" th:errors="*{texto}"></p>
+            </div>
+
+            <div class="campo-doble">
+                <div class="campo">
+                    <label for="imagen">Imagen (ruta)</label>
+                    <input id="imagen" type="text" th:field="*{imagen}" maxlength="300" placeholder="/img/nivel-1.png">
+                    <p class="campo__ayuda">Ruta de una imagen dentro del proyecto o una URL con permisos de uso.</p>
+                    <p class="campo__error" th:if="${#fields.hasErrors('imagen')}" th:errors="*{imagen}"></p>
+                </div>
+                <div class="campo">
+                    <label for="orden">Orden</label>
+                    <input id="orden" type="number" min="0" max="999" th:field="*{orden}">
+                    <p class="campo__error" th:if="${#fields.hasErrors('orden')}" th:errors="*{orden}"></p>
+                </div>
+            </div>
+
+            <label class="casilla casilla--simple">
+                <input type="checkbox" th:field="*{publicado}">
+                <span>Publicado (visible en el sitio)</span>
+            </label>
+            <p class="campo__error" th:if="${#fields.hasErrors('publicado')}" th:errors="*{publicado}"></p>
+
+            <div class="previsualizacion" th:if="${contenido.imagen != null and !contenido.imagen.isEmpty()}">
+                <span class="nota">Imagen actual</span>
+                <img th:src="${contenido.imagen}" alt="Previsualización del contenido">
+            </div>
+
+            <div class="cuestionario__acciones">
+                <a class="boton boton--fantasma" th:href="@{/admin/contenidos}">Cancelar</a>
+                <button type="submit" class="boton boton--grande" th:text="${editando ? 'Guardar cambios' : 'Crear contenido'}">Crear contenido</button>
+            </div>
+        </form>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

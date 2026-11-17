@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{comunes :: head('Mi catálogo')}"></head>
+<body>
+<div th:replace="~{comunes :: barraApp}"></div>
+
+<main class="contenedor">
+    <header class="cabecera-app cabecera-app--catalogo">
+        <div>
+            <span class="etiqueta etiqueta--durazno">Mi estilo, mi esencia</span>
+            <h1>Tu catálogo personal</h1>
+            <p class="texto-suave" th:text="${intro != null ? intro.texto : ''}"></p>
+            <p class="nota">Generado para <strong th:text="${usuario.nombreCompleto}">Ana Pérez</strong>. Queda guardado en tu cuenta.</p>
+        </div>
+        <div class="cabecera-app__acciones">
+            <a class="boton boton--suave" th:href="@{/app/resultados}">Ver resultados</a>
+            <a class="boton" th:href="@{/app}">Mi espacio</a>
+        </div>
+    </header>
+
+    <nav class="indice-catalogo" aria-label="Secciones del catálogo">
+        <a th:each="seccion, iter : ${secciones}" th:href="'#seccion-' + ${iter.count}"><span th:text="${seccion.titulo}">Rostro y cortes</span></a>
+    </nav>
+
+    <section class="seccion-catalogo" th:each="seccion, iter : ${secciones}" th:id="'seccion-' + ${iter.count}">
+        <div class="seccion-catalogo__cabecera">
+            <span class="indice" th:text="${iter.count}">1</span>
+            <h2 th:text="${seccion.titulo}">Rostro y cortes</h2>
+        </div>
+        <div class="rejilla rejilla--catalogo">
+            <article class="item-catalogo" th:each="item : ${seccion.items}">
+                <div class="item-catalogo__imagen" th:classappend="${item.imagenCuadrada} ? ' item-catalogo__imagen--cuadrada' : ''">
+                    <img th:src="${item.imagen}" th:alt="${item.titulo}">
+                </div>
+                <div class="item-catalogo__cuerpo">
+                    <h3 th:text="${item.titulo}">Título</h3>
+                    <p th:text="${item.descripcion}"></p>
+                </div>
+            </article>
+        </div>
+        <p class="texto-suave" th:if="${seccion.items.isEmpty()}">Esta sección se completará con tus próximas respuestas.</p>
+    </section>
+
+    <section class="llamado">
+        <h2>¿Quieres ajustar algo?</h2>
+        <p>Puedes repetir cualquier nivel desde Mi espacio. Tu catálogo se actualizará con tus nuevas respuestas.</p>
+        <div class="llamado__acciones">
+            <a class="boton boton--grande" th:href="@{/app}">Repetir un nivel</a>
+            <a class="boton boton--suave boton--grande" th:href="@{/app/perfil}">Mi perfil</a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

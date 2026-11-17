@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Ejecutar Stylo Vibes",
+            "request": "launch",
+            "mainClass": "co.stylovibes.StyloVibesApplication",
+            "projectName": "stylo-vibes",
+            "cwd": "${workspaceFolder}",
+            "vmArgs": "-XX:TieredStopAtLevel=1"
+        }
+    ]
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(titulo)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stylo Vibes: diagnóstico de imagen personal juvenil, inclusivo y sin reglas rígidas.">
+    <title th:text="${titulo} + ' · Stylo Vibes'">Stylo Vibes</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    <link rel="icon" th:href="@{/img/favicon.svg}" type="image/svg+xml">
+</head>
+<body>
+
+<div th:fragment="barra" class="barra-envoltorio">
+    <nav class="barra">
+        <a class="marca" th:href="@{/}">
+            <span class="marca__icono" aria-hidden="true"><img th:src="@{/img/logo.svg}" alt=""></span>
+            <span class="marca__texto">Stylo <em>Vibes</em></span>
+        </a>
+        <input type="checkbox" id="menu-publico" class="menu-check" aria-hidden="true">
+        <label for="menu-publico" class="menu-boton" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </label>
+        <div class="barra__enlaces">
+            <a th:href="@{/}">Inicio</a>
+            <a th:href="@{/#niveles}">Niveles</a>
+            <a th:href="@{/#catalogo}">Mi estilo</a>
+            <a sec:authorize="hasRole('USUARIO')" th:href="@{/app}">Mi espacio</a>
+            <a sec:authorize="hasRole('ADMINISTRADOR')" th:href="@{/admin}">Panel admin</a>
+            <a sec:authorize="!isAuthenticated()" class="boton boton--fantasma" th:href="@{/login}">Iniciar sesión</a>
+            <a sec:authorize="!isAuthenticated()" class="boton" th:href="@{/registro}">Crear cuenta</a>
+            <form sec:authorize="hasRole('USUARIO')" th:action="@{/salir}" method="post" class="en-linea">
+                <button type="submit" class="boton boton--fantasma">Salir</button>
+            </form>
+            <form sec:authorize="hasRole('ADMINISTRADOR')" th:action="@{/admin/salir}" method="post" class="en-linea">
+                <button type="submit" class="boton boton--fantasma">Salir</button>
+            </form>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="barraApp" class="barra-envoltorio">
+    <nav class="barra">
+        <a class="marca" th:href="@{/app}">
+            <span class="marca__icono" aria-hidden="true"><img th:src="@{/img/logo.svg}" alt=""></span>
+            <span class="marca__texto">Stylo <em>Vibes</em></span>
+        </a>
+        <input type="checkbox" id="menu-app" class="menu-check" aria-hidden="true">
+        <label for="menu-app" class="menu-boton" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </label>
+        <div class="barra__enlaces">
+            <a th:href="@{/app}">Mi espacio</a>
+            <a th:href="@{/app/resultados}">Resultados</a>
+            <a th:href="@{/app/catalogo}">Mi catálogo</a>
+            <a th:href="@{/app/perfil}">Mi perfil</a>
+            <a th:href="@{/}">Inicio</a>
+            <form th:action="@{/salir}" method="post" class="en-linea">
+                <button type="submit" class="boton boton--fantasma">Salir</button>
+            </form>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="barraAdmin" class="barra-envoltorio">
+    <nav class="barra barra--admin">
+        <a class="marca" th:href="@{/admin}">
+            <span class="marca__icono" aria-hidden="true"><img th:src="@{/img/logo.svg}" alt=""></span>
+            <span class="marca__texto">Stylo <em>Vibes</em> <small>admin</small></span>
+        </a>
+        <input type="checkbox" id="menu-admin" class="menu-check" aria-hidden="true">
+        <label for="menu-admin" class="menu-boton" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+        </label>
+        <div class="barra__enlaces">
+            <a th:href="@{/admin}">Panel</a>
+            <a th:href="@{/admin/contenidos}">Contenidos</a>
+            <a th:href="@{/admin/usuarios}">Usuarios</a>
+            <a th:href="@{/admin/encuestas}">Encuestas</a>
+            <a th:href="@{/admin/respaldo}">Respaldo</a>
+            <a th:href="@{/}">Ver sitio</a>
+            <form th:action="@{/admin/salir}" method="post" class="en-linea">
+                <button type="submit" class="boton boton--fantasma">Salir</button>
+            </form>
+        </div>
+    </nav>
+</div>
+
+<div th:fragment="avisos" th:if="${mensaje != null or error != null}" class="avisos">
+    <div class="aviso aviso--ok" th:if="${mensaje}" th:text="${mensaje}"></div>
+    <div class="aviso aviso--error" th:if="${error}" th:text="${error}"></div>
+</div>
+
+<footer th:fragment="pie" class="pie">
+    <div class="pie__contenido">
+        <div class="pie__bloque">
+            <a class="marca marca--pie" th:href="@{/}">
+                <span class="marca__icono" aria-hidden="true"><img th:src="@{/img/logo.svg}" alt=""></span>
+                <span class="marca__texto">Stylo <em>Vibes</em></span>
+            </a>
+            <p class="pie__frase">Tu estilo, mi esencia. Un espacio para explorar tu imagen con respeto, diversidad y diversión.</p>
+            <p class="pie__nota">Cinco niveles, un catálogo hecho a tu medida y consejos para sentirte tú.</p>
+        </div>
+        <div class="pie__columna">
+            <h3>Explora</h3>
+            <a th:href="@{/}">Inicio</a>
+            <a th:href="@{/#niveles}">Los 5 niveles</a>
+            <a th:href="@{/#catalogo}">Mi estilo, mi esencia</a>
+        </div>
+        <div class="pie__columna">
+            <h3>Tu cuenta</h3>
+            <a th:href="@{/registro}">Crear cuenta</a>
+            <a th:href="@{/login}">Iniciar sesión</a>
+            <a sec:authorize="hasRole('USUARIO')" th:href="@{/app}">Mi espacio</a>
+            <a sec:authorize="hasRole('ADMINISTRADOR')" th:href="@{/admin}">Panel admin</a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/admin/login}">Administración</a>
+        </div>
+        <div class="pie__columna pie__columna--legal">
+            <h3>Datos y cuidado</h3>
+            <p>No solicitamos fotografías personales. Tratamos tus datos con cuidado, conforme a la Ley 1581 de 2012 de protección de datos.</p>
+            <p>Si eres menor de edad, necesitas la autorización de tu acudiente para registrarte.</p>
+        </div>
+    </div>
+    <div class="pie__base">
+        <p>© <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2026</span> Stylo Vibes. Todos los derechos reservados.</p>
+        <p>Ilustraciones creadas para la plataforma · Hecho con cariño.</p>
+    </div>
+</footer>
+
+</body>
+</html>

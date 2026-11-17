@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-StyloVibesApplication<stylo-vibes>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "co.stylovibes.StyloVibesApplication",
+            "projectName": "stylo-vibes",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

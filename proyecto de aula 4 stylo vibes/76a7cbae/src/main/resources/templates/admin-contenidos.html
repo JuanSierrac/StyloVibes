@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{comunes :: head('Contenidos')}"></head>
+<body>
+<div th:replace="~{comunes :: barraAdmin}"></div>
+
+<main class="contenedor">
+    <div th:replace="~{comunes :: avisos}"></div>
+    <header class="cabecera-app">
+        <div>
+            <span class="etiqueta etiqueta--menta">Administración</span>
+            <h1>Contenidos del sitio</h1>
+            <p class="texto-suave">Edita los textos e imágenes que ven las personas en el inicio y en cada nivel del diagnóstico.</p>
+        </div>
+        <div class="cabecera-app__acciones">
+            <a class="boton" th:href="@{/admin/contenidos/nuevo}">Nuevo contenido</a>
+        </div>
+    </header>
+
+    <section class="tarjeta tarjeta--datos">
+        <div class="tabla-envoltorio">
+            <table class="tabla">
+                <thead>
+                <tr>
+                    <th>Contenido</th>
+                    <th>Sección</th>
+                    <th>Orden</th>
+                    <th>Estado</th>
+                    <th>Actualizado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c : ${contenidos}">
+                    <td>
+                        <div class="celda-contenido">
+                            <img th:if="${c.imagen != null and !c.imagen.isEmpty()}" th:src="${c.imagen}" alt="">
+                            <div>
+                                <strong th:text="${c.titulo}">Título</strong>
+                                <span class="nota" th:text="${c.clave}">clave</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:text="${c.seccion.titulo}">Inicio</td>
+                    <td th:text="${c.orden}">1</td>
+                    <td>
+                        <span class="chip" th:classappend="${c.publicado ? 'chip--completado' : 'chip--pendiente'}"
+                              th:text="${c.publicado ? 'Publicado' : 'Oculto'}">Publicado</span>
+                    </td>
+                    <td th:text="${c.fechaActualizacionTexto}">01/01/2026</td>
+                    <td>
+                        <div class="acciones-tabla">
+                            <a class="enlace-nivel" th:href="@{/admin/contenidos/{id}/editar(id=${c.id})}">Editar</a>
+                            <details class="confirmar">
+                                <summary class="enlace-eliminar">Eliminar</summary>
+                                <form th:action="@{/admin/contenidos/{id}/eliminar(id=${c.id})}" method="post">
+                                    <p class="nota">¿Seguro que quieres eliminar este bloque?</p>
+                                    <button type="submit" class="boton boton--peligro boton--pequeno">Sí, eliminar</button>
+                                </form>
+                            </details>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${contenidos.isEmpty()}">
+                    <td colspan="6" class="texto-suave">No hay contenidos. Crea el primero.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel-doble panel-doble--suave">
+        <div class="panel-doble__texto">
+            <h2>Buenas prácticas</h2>
+            <ul class="lista-ticks">
+                <li>Los textos deben ser inclusivos y respetuosos con todos los cuerpos y estilos.</li>
+                <li>Usa imágenes claras, sin marcas de agua y con permisos de uso adecuados.</li>
+                <li>La clave identifica el bloque dentro del sitio: no la cambies si ya está en uso.</li>
+                <li>Si desmarcas "Publicado", el contenido deja de mostrarse en el sitio público.</li>
+            </ul>
+        </div>
+        <div class="panel-doble__imagen">
+            <img th:src="@{/img/nivel-2.png}" alt="Ilustración de contenido editorial">
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

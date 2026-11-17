@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{comunes :: head('Mi espacio')}"></head>
+<body>
+<div th:replace="~{comunes :: barraApp}"></div>
+
+<main class="contenedor">
+    <div th:replace="~{comunes :: avisos}"></div>
+
+    <header class="cabecera-app">
+        <div>
+            <span class="etiqueta etiqueta--menta">Mi espacio</span>
+            <h1>Hola, <span th:text="${usuario.nombre}">Ana</span></h1>
+            <p class="texto-suave">Este es tu recorrido de imagen personal. Avanza a tu ritmo y retoma cuando quieras.</p>
+        </div>
+        <div class="avatar-simple" th:text="${#strings.substring(usuario.nombre, 0, 1)}">A</div>
+    </header>
+
+    <section class="progreso-panel" th:with="porcentaje=${caracteristica.porcentaje()}">
+        <div class="progreso-panel__texto">
+            <span class="etiqueta etiqueta--lila">Tu progreso</span>
+            <h2 th:if="${!caracteristica.todoCompletado()}">
+                Vas por el nivel <span th:text="${caracteristica.nivelActual()}">1</span> de 5
+            </h2>
+            <h2 th:if="${caracteristica.todoCompletado()}">¡Completaste los 5 niveles!</h2>
+            <p th:if="${!caracteristica.todoCompletado()}">Completa cada nivel para desbloquear el siguiente.</p>
+            <p th:if="${caracteristica.todoCompletado()}">Tu resultado y tu catálogo personal están listos para ti.</p>
+        </div>
+        <div class="progreso-panel__barra">
+            <div class="progreso__meta">
+                <span th:text="${porcentaje} + '% completado'">0% completado</span>
+                <strong>5 niveles</strong>
+            </div>
+            <div class="progreso__pista" role="img" th:attr="aria-label=${porcentaje + '% completado'}">
+                <span th:style="'width:' + ${porcentaje} + '%'"></span>
+            </div>
+            <div class="progreso__acciones" th:if="${!caracteristica.todoCompletado()}">
+                <a class="boton" th:href="@{/app/nivel/{n}(n=${siguiente})}">Continuar nivel <span th:text="${siguiente}"></span></a>
+            </div>
+            <div class="progreso__acciones" th:if="${caracteristica.todoCompletado()}">
+                <a class="boton" th:href="@{/app/resultados}">Ver mis resultados</a>
+                <a class="boton boton--suave" th:href="@{/app/catalogo}">Ver mi catálogo</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion">
+        <div class="seccion__cabecera">
+            <span class="etiqueta etiqueta--amarillo">Los 5 niveles</span>
+            <h2>Tu recorrido</h2>
+            <p>Los niveles se desbloquean en orden. Puedes repetir un nivel completado cuando quieras.</p>
+        </div>
+        <div class="rejilla rejilla--niveles">
+            <article class="tarjeta tarjeta--nivel tarjeta--nivel-app" th:each="nivel : ${niveles}"
+                     th:classappend="' estado-' + ${nivel.estadoClase}">
+                <div class="tarjeta--nivel__imagen">
+                    <img th:src="${nivel.imagen}" th:alt="${nivel.titulo}">
+                    <span class="numero" th:text="${nivel.numero}">1</span>
+                </div>
+                <div class="tarjeta__cuerpo">
+                    <div class="fila-entre">
+                        <h3 th:text="${nivel.titulo}">Tipo de rostro</h3>
+                        <span class="chip" th:classappend="' chip--' + ${nivel.estadoClase}" th:text="${nivel.estadoTexto}">Pendiente</span>
+                    </div>
+                    <a class="enlace-nivel" th:if="${nivel.estadoClase != 'pendiente'}"
+                       th:href="@{/app/nivel/{n}(n=${nivel.numero})}"
+                       th:text="${nivel.estadoClase == 'completado' ? 'Revisar nivel' : 'Comenzar nivel'}">Comenzar nivel</a>
+                    <span class="nota" th:if="${nivel.estadoClase == 'pendiente'}">Se desbloquea al completar el nivel anterior</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="panel-doble panel-doble--rosa">
+        <div class="panel-doble__texto">
+            <span class="etiqueta etiqueta--rosa">Recuerda</span>
+            <h2>La ropa se adapta a ti</h2>
+            <p>Estas recomendaciones son una guía para explorar, no reglas para encajar. Usa lo que te haga sentir cómodo, seguro y con ganas de expresarte.</p>
+            <a class="boton boton--suave" th:href="@{/app/perfil}">Ver mi perfil</a>
+        </div>
+        <div class="panel-doble__imagen">
+            <img th:src="@{/img/nivel-5-mixto.png}" alt="Ilustración de estilos de moda diversos">
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

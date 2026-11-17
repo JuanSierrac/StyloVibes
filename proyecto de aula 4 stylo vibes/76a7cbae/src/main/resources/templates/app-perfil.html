@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{comunes :: head('Mi perfil')}"></head>
+<body>
+<div th:replace="~{comunes :: barraApp}"></div>
+
+<main class="contenedor">
+    <header class="cabecera-app">
+        <div class="cabecera-app__identidad">
+            <div class="avatar-simple avatar-simple--grande" th:text="${#strings.substring(usuario.nombre, 0, 1)}">A</div>
+            <div>
+                <span class="etiqueta etiqueta--menta">Mi perfil</span>
+                <h1 th:text="${usuario.nombreCompleto}">Ana Pérez</h1>
+                <p class="texto-suave" th:text="${usuario.email}">ana@correo.com</p>
+            </div>
+        </div>
+        <div class="cabecera-app__acciones">
+            <a class="boton boton--suave" th:href="@{/app/resultados}">Mis resultados</a>
+            <a class="boton" th:href="@{/app/catalogo}">Mi catálogo</a>
+        </div>
+    </header>
+
+    <div class="rejilla rejilla--perfil">
+        <section class="tarjeta tarjeta--datos">
+            <h2>Datos de mi cuenta</h2>
+            <dl class="datos-lista">
+                <dt>Nombre completo</dt>
+                <dd th:text="${usuario.nombreCompleto}"></dd>
+                <dt>Correo electrónico</dt>
+                <dd th:text="${usuario.email}"></dd>
+                <dt>Edad</dt>
+                <dd th:text="${usuario.edad}"></dd>
+                <dt>Género</dt>
+                <dd th:text="${usuario.genero}"></dd>
+                <dt>Miembro desde</dt>
+                <dd th:text="${usuario.fechaRegistroTexto}"></dd>
+            </dl>
+            <p class="nota">Tus datos se usan solo para guardar tu progreso, tus resultados y tu catálogo. No solicitamos fotografías personales.</p>
+            <form th:action="@{/salir}" method="post">
+                <button type="submit" class="boton boton--fantasma">Cerrar sesión</button>
+            </form>
+        </section>
+
+        <section class="tarjeta tarjeta--datos">
+            <h2>Mi progreso</h2>
+            <div class="progreso__meta">
+                <span th:text="${caracteristica.porcentaje()} + '% completado'">0% completado</span>
+                <strong>5 niveles</strong>
+            </div>
+            <div class="progreso__pista">
+                <span th:style="'width:' + ${caracteristica.porcentaje()} + '%'"></span>
+            </div>
+            <ul class="lista-progreso">
+                <li th:each="nivel : ${niveles}">
+                    <div>
+                        <strong th:text="'Nivel ' + ${nivel.numero} + ': ' + ${nivel.titulo}">Nivel 1</strong>
+                        <span class="chip" th:classappend="' chip--' + ${nivel.estadoClase}" th:text="${nivel.estadoTexto}">Pendiente</span>
+                    </div>
+                    <a th:if="${nivel.estadoClase != 'pendiente'}" class="enlace-nivel"
+                       th:href="@{/app/nivel/{n}(n=${nivel.numero})}"
+                       th:text="${nivel.estadoClase == 'completado' ? 'Repetir' : 'Comenzar'}">Comenzar</a>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <section class="seccion seccion--tarjeta" th:if="${caracteristica.todoCompletado()}">
+        <div class="seccion__cabecera">
+            <span class="etiqueta etiqueta--lila">Resumen</span>
+            <h2>Lo que descubrimos sobre ti</h2>
+        </div>
+        <div class="rejilla rejilla--resumen">
+            <article class="tarjeta-resumen tarjeta-resumen--menta">
+                <span class="tarjeta-resumen__etiqueta">Rostro</span>
+                <h3 th:text="${rostroNombre}">Óvalado</h3>
+            </article>
+            <article class="tarjeta-resumen tarjeta-resumen--rosa">
+                <span class="tarjeta-resumen__etiqueta">Colorimetría</span>
+                <h3 th:text="${estacionNombre}">Verano</h3>
+                <p th:text="'Subtono ' + ${#strings.toLowerCase(subtonoNombre)}"></p>
+            </article>
+            <article class="tarjeta-resumen tarjeta-resumen--lila">
+                <span class="tarjeta-resumen__etiqueta">Cuerpo</span>
+                <h3 th:text="${cuerpoNombre}">Rectángulo</h3>
+            </article>
+            <article class="tarjeta-resumen tarjeta-resumen--amarillo">
+                <span class="tarjeta-resumen__etiqueta">Estilos</span>
+                <div class="chips">
+                    <span class="chip chip--estilo" th:each="nombreEstilo : ${estilosNombres}" th:text="${nombreEstilo}">Casual</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section class="seccion seccion--tarjeta" th:unless="${caracteristica.todoCompletado()}">
+        <p class="texto-suave">Cuando completes los 5 niveles verás aquí el resumen de tu estilo, tu colorimetría y tus recomendaciones.</p>
+        <a class="boton" th:href="@{/app}">Continuar mi diagnóstico</a>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

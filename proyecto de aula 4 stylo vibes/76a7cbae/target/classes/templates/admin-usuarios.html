@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{comunes :: head('Usuarios')}"></head>
+<body>
+<div th:replace="~{comunes :: barraAdmin}"></div>
+
+<main class="contenedor">
+    <div th:replace="~{comunes :: avisos}"></div>
+    <header class="cabecera-app">
+        <div>
+            <span class="etiqueta etiqueta--rosa">Administración</span>
+            <h1>Usuarios registrados</h1>
+            <p class="texto-suave">Consulta las cuentas y su avance en el diagnóstico. Solo mostramos información necesaria para acompañar el proceso.</p>
+        </div>
+        <div class="cabecera-app__acciones">
+            <span class="chip chip--estilo" th:text="${totalUsuarios} + ' cuentas'">0 cuentas</span>
+            <a class="boton boton--suave" th:href="@{/admin/encuestas}">Ver respuestas</a>
+        </div>
+    </header>
+
+    <section class="rejilla rejilla--usuarios">
+        <article class="tarjeta tarjeta--usuario" th:each="v : ${usuariosVista}">
+            <div class="usuario-cabecera">
+                <div class="avatar-simple" th:text="${#strings.substring(v.usuario.nombre, 0, 1)}">A</div>
+                <div>
+                    <h3 th:text="${v.usuario.nombreCompleto}">Ana Pérez</h3>
+                    <span class="nota" th:text="${v.usuario.email}">ana@correo.com</span>
+                </div>
+            </div>
+            <dl class="datos-lista datos-lista--compacta">
+                <dt>Edad</dt>
+                <dd th:text="${v.usuario.edad}"></dd>
+                <dt>Género</dt>
+                <dd th:text="${v.usuario.genero}"></dd>
+                <dt>Registro</dt>
+                <dd th:text="${v.usuario.fechaRegistroTexto}"></dd>
+            </dl>
+            <div class="progreso__meta">
+                <span>Avance del diagnóstico</span>
+                <strong th:text="${v.porcentaje} + '%'">0%</strong>
+            </div>
+            <div class="progreso__pista">
+                <span th:style="'width:' + ${v.porcentaje} + '%'"></span>
+            </div>
+            <div class="chips">
+                <span class="chip chip--menta" th:text="'Rostro: ' + ${v.rostro}">Rostro: Óvalado</span>
+                <span class="chip chip--lila" th:text="'Estación: ' + ${v.estacion}">Estación: Verano</span>
+                <span class="chip chip--rosa" th:text="'Cuerpo: ' + ${v.cuerpo}">Cuerpo: Rectángulo</span>
+            </div>
+            <div class="chips">
+                <span class="chip chip--estilo" th:text="'Estilos: ' + ${v.estilos}">Estilos: Casual</span>
+            </div>
+        </article>
+        <p class="texto-suave" th:if="${usuariosVista.isEmpty()}">Aún no hay cuentas de usuario registradas.</p>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

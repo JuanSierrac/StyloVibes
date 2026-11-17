@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{comunes :: head('Panel administrador')}"></head>
+<body>
+<div th:replace="~{comunes :: barraAdmin}"></div>
+
+<main class="contenedor">
+    <div th:replace="~{comunes :: avisos}"></div>
+    <header class="cabecera-app">
+        <div>
+            <span class="etiqueta etiqueta--lila">Administración</span>
+            <h1>Panel general</h1>
+            <p class="texto-suave">Gestiona el contenido de Stylo Vibes y revisa la actividad de las cuentas.</p>
+        </div>
+        <div class="cabecera-app__acciones">
+            <a class="boton" th:href="@{/admin/contenidos}">Gestionar contenidos</a>
+            <a class="boton boton--suave" th:href="@{/admin/contenidos/nuevo}">Crear contenido</a>
+            <a class="boton boton--suave" th:href="@{/admin/respaldo}">Descargar respaldo</a>
+        </div>
+    </header>
+
+    <section class="rejilla rejilla--estadisticas">
+        <article class="estadistica estadistica--menta">
+            <span class="estadistica__numero" th:text="${totalUsuarios}">0</span>
+            <span class="estadistica__texto">Cuentas de usuario</span>
+        </article>
+        <article class="estadistica estadistica--rosa">
+            <span class="estadistica__numero" th:text="${totalCompletos}">0</span>
+            <span class="estadistica__texto">Diagnósticos completos</span>
+        </article>
+        <article class="estadistica estadistica--lila">
+            <span class="estadistica__numero" th:text="${totalContenidos}">0</span>
+            <span class="estadistica__texto">Bloques de contenido</span>
+        </article>
+    </section>
+
+    <section class="tarjeta tarjeta--datos">
+        <div class="fila-entre">
+            <h2>Últimas cuentas registradas</h2>
+            <a class="enlace-nivel" th:href="@{/admin/usuarios}">Ver todas</a>
+        </div>
+        <div class="tabla-envoltorio">
+            <table class="tabla">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Registro</th>
+                    <th>Avance</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u : ${recientes}">
+                    <td th:text="${u.nombreCompleto}">Ana Pérez</td>
+                    <td th:text="${u.email}">ana@correo.com</td>
+                    <td th:text="${u.fechaRegistroTexto}">1 de enero de 2026</td>
+                    <td>
+                        <span th:if="${u.rol.name() == 'ADMINISTRADOR'}" class="chip chip--lila">Administrador</span>
+                        <span th:if="${u.rol.name() != 'ADMINISTRADOR'}"
+                              th:text="${u.caracteristica != null ? u.caracteristica.porcentaje() + '%' : '0%'}">0%</span>
+                    </td>
+                </tr>
+                <tr th:if="${recientes.isEmpty()}">
+                    <td colspan="4" class="texto-suave">Aún no hay cuentas registradas.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="rejilla rejilla--valores">
+        <a class="tarjeta tarjeta--valor tarjeta--menta enlace-tarjeta" th:href="@{/admin/contenidos}">
+            <h3>Textos e imágenes</h3>
+            <p>Edita los bloques que aparecen en la página de inicio y en cada nivel del diagnóstico.</p>
+        </a>
+        <a class="tarjeta tarjeta--valor tarjeta--lila enlace-tarjeta" th:href="@{/admin/usuarios}">
+            <h3>Usuarios</h3>
+            <p>Consulta las cuentas registradas y su avance en el diagnóstico.</p>
+        </a>
+        <a class="tarjeta tarjeta--valor tarjeta--rosa enlace-tarjeta" th:href="@{/admin/encuestas}">
+            <h3>Respuestas</h3>
+            <p>Revisa las respuestas y los resultados del diagnóstico de cada persona.</p>
+        </a>
+        <article class="tarjeta tarjeta--valor tarjeta--amarillo">
+            <h3>Respaldo de datos</h3>
+            <p>Descarga en un archivo <code>.sql</code> todas las cuentas, los contenidos y las respuestas. Guárdalo en un lugar seguro: sirve para recuperar la información o pasarla a otro computador.</p>
+            <a class="boton boton--suave" th:href="@{/admin/respaldo}">Descargar respaldo</a>
+        </article>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

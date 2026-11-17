@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="Stylo Vibes">
+    <defs>
+        <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#9FE0C0"/>
+            <stop offset="0.55" stop-color="#C9B6E4"/>
+            <stop offset="1" stop-color="#A9CFEA"/>
+        </linearGradient>
+    </defs>
+    <rect width="40" height="40" rx="13" fill="url(#fondo)"/>
+    <rect x="1.6" y="1.6" width="36.8" height="36.8" rx="11.4" fill="none" stroke="#FFFDF8" stroke-opacity="0.65" stroke-width="2"/>
+    <path d="M20 6.5c1.4 6.7 4.6 9.9 11.3 11.3-6.7 1.4-9.9 4.6-11.3 11.3-1.4-6.7-4.6-9.9-11.3-11.3 6.7-1.4 9.9-4.6 11.3-11.3Z" fill="#FFFDF8"/>
+    <path d="M29.6 24.4c.5 2.8 1.5 3.8 4.3 4.3-2.8.5-3.8 1.5-4.3 4.3-.5-2.8-1.5-3.8-4.3-4.3 2.8-.5 3.8-1.5 4.3-4.3Z" fill="#FFFDF8" opacity="0.92"/>
+    <circle cx="12.6" cy="29.2" r="1.9" fill="#FFFDF8" opacity="0.75"/>
+</svg>

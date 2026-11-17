@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{comunes :: head('Mis resultados')}"></head>
+<body>
+<div th:replace="~{comunes :: barraApp}"></div>
+
+<main class="contenedor">
+    <header class="cabecera-app">
+        <div>
+            <span class="etiqueta etiqueta--lila">Mis resultados</span>
+            <h1>Así es tu esencia, <span th:text="${usuario.nombre}">Ana</span></h1>
+            <p class="texto-suave">Este resumen se basa en tus respuestas. Tómalo como una guía para explorar, no como una regla.</p>
+        </div>
+        <div class="cabecera-app__acciones">
+            <a class="boton" th:href="@{/app/catalogo}">Ver mi catálogo</a>
+        </div>
+    </header>
+
+    <section class="rejilla rejilla--resumen">
+        <article class="tarjeta-resumen tarjeta-resumen--menta">
+            <span class="tarjeta-resumen__etiqueta">Rostro</span>
+            <h2 th:text="${rostro.titulo}">Rostro ovalado</h2>
+            <p th:text="${rostro.descripcion}"></p>
+        </article>
+        <article class="tarjeta-resumen tarjeta-resumen--rosa">
+            <span class="tarjeta-resumen__etiqueta">Colorimetría</span>
+            <h2 th:text="${estacionNombre}">Verano</h2>
+            <p>Subtono <strong th:text="${#strings.toLowerCase(subtonoNombre)}">frío</strong>. Paleta de colores que te iluminan.</p>
+        </article>
+        <article class="tarjeta-resumen tarjeta-resumen--lila">
+            <span class="tarjeta-resumen__etiqueta">Tipo de cuerpo</span>
+            <h2 th:text="${cuerpoNombre}">Rectángulo</h2>
+            <p th:text="${cuerpo.descripcion}"></p>
+        </article>
+        <article class="tarjeta-resumen tarjeta-resumen--amarillo">
+            <span class="tarjeta-resumen__etiqueta">Estilos</span>
+            <div class="chips">
+                <span class="chip chip--estilo" th:each="estilo : ${estilos}" th:text="${estilo.titulo}">Casual</span>
+            </div>
+        </article>
+    </section>
+
+    <section class="seccion seccion--tarjeta">
+        <div class="seccion__cabecera seccion__cabecera--fila">
+            <div>
+                <span class="etiqueta etiqueta--menta">Nivel 1</span>
+                <h2>Rostro y cortes</h2>
+            </div>
+            <img class="icono-seccion" th:src="${imagenesNivel['1']}" alt="Ilustración de tipos de rostro">
+        </div>
+        <div class="panel-doble panel-doble--suave">
+            <div class="panel-doble__texto">
+                <h3 th:text="${rostro.titulo}">Rostro ovalado</h3>
+                <p th:text="${rostro.descripcion}"></p>
+                <dl class="datos-lista">
+                    <dt>Corte de cabello</dt>
+                    <dd th:text="${rostro.corte}"></dd>
+                    <dt>Flequillo</dt>
+                    <dd th:text="${rostro.flequillo}"></dd>
+                    <dt>Gafas y accesorios</dt>
+                    <dd th:text="${rostro.gafas}"></dd>
+                    <dt>Para tener en cuenta</dt>
+                    <dd th:text="${rostro.evitar}"></dd>
+                </dl>
+            </div>
+            <div class="panel-doble__imagen">
+                <img th:src="${imagenesNivel['1']}" alt="Ilustración de tipos de rostro">
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion seccion--tarjeta">
+        <div class="seccion__cabecera seccion__cabecera--fila">
+            <div>
+                <span class="etiqueta etiqueta--rosa">Nivel 2</span>
+                <h2>Facciones y cuidado facial</h2>
+            </div>
+            <img class="icono-seccion" th:src="${imagenesNivel['2']}" alt="Ilustración de cuidado facial">
+        </div>
+        <div class="rejilla rejilla--facciones" th:if="${!facciones.isEmpty()}">
+            <article class="mini-tarjeta" th:each="f : ${facciones}">
+                <h3 th:text="${f.titulo}">Ojos almendrados</h3>
+                <p th:text="${f.descripcion}"></p>
+                <ul class="lista-ticks lista-ticks--pequena">
+                    <li th:each="tip : ${f.maquillaje}" th:text="${tip}"></li>
+                </ul>
+                <p class="nota" th:text="'Cuidado: ' + ${f.cuidado}"></p>
+            </article>
+        </div>
+        <p class="texto-suave" th:if="${facciones.isEmpty()}">Completa el nivel 2 para ver tus recomendaciones de facciones.</p>
+    </section>
+
+    <section class="seccion seccion--tarjeta">
+        <div class="seccion__cabecera seccion__cabecera--fila">
+            <div>
+                <span class="etiqueta etiqueta--lila">Nivel 3</span>
+                <h2>Colorimetría y paletas</h2>
+            </div>
+            <img class="icono-seccion" th:src="${imagenesNivel['3']}" alt="Ilustración de paletas de color">
+        </div>
+        <div class="panel-color">
+            <div class="panel-color__intro">
+                <h3>Estación <span th:text="${estacionNombre}">Verano</span></h3>
+                <p>Subtono <strong th:text="${#strings.toLowerCase(subtonoNombre)}">frío</strong>. <span th:text="${color.descripcion}"></span></p>
+            </div>
+            <div class="paleta-grupos">
+                <div class="paleta-grupo">
+                    <h4>Ropa</h4>
+                    <div class="paleta">
+                        <span class="paleta__color" th:each="c : ${color.ropa}" th:style="'background-color:' + ${c.hex}" th:title="${c.nombre}"></span>
+                    </div>
+                    <p class="nota" th:text="${color.ropaNombres}"></p>
+                </div>
+                <div class="paleta-grupo">
+                    <h4>Maquillaje</h4>
+                    <div class="paleta">
+                        <span class="paleta__color" th:each="c : ${color.maquillaje}" th:style="'background-color:' + ${c.hex}" th:title="${c.nombre}"></span>
+                    </div>
+                    <p class="nota" th:text="${color.maquillajeNombres}"></p>
+                </div>
+                <div class="paleta-grupo">
+                    <h4>Cabello</h4>
+                    <div class="paleta">
+                        <span class="paleta__color" th:each="c : ${color.cabello}" th:style="'background-color:' + ${c.hex}" th:title="${c.nombre}"></span>
+                    </div>
+                    <p class="nota" th:text="${color.cabelloNombres}"></p>
+                </div>
+                <div class="paleta-grupo">
+                    <h4>Accesorios</h4>
+                    <div class="paleta">
+                        <span class="paleta__color" th:each="c : ${color.accesorios}" th:style="'background-color:' + ${c.hex}" th:title="${c.nombre}"></span>
+                    </div>
+                    <p class="nota" th:text="${color.accesoriosNombres}"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion seccion--tarjeta">
+        <div class="seccion__cabecera seccion__cabecera--fila">
+            <div>
+                <span class="etiqueta etiqueta--durazno">Nivel 4</span>
+                <h2>Tipo de cuerpo y vestuario</h2>
+            </div>
+            <img class="icono-seccion" th:src="${imagenesNivel['4']}" alt="Ilustración de siluetas y prendas">
+        </div>
+        <div class="panel-doble panel-doble--suave">
+            <div class="panel-doble__texto">
+                <h3 th:text="${cuerpo.titulo}">Rectángulo</h3>
+                <p th:text="${cuerpo.descripcion}"></p>
+                <h4>Prendas que te favorecen</h4>
+                <ul class="lista-ticks">
+                    <li th:each="prenda : ${cuerpo.prendas}" th:text="${prenda}"></li>
+                </ul>
+                <h4>Consejos de proporción</h4>
+                <ul class="lista-ticks lista-ticks--tenue">
+                    <li th:each="evitar : ${cuerpo.evitar}" th:text="${evitar}"></li>
+                </ul>
+            </div>
+            <div class="panel-doble__imagen">
+                <img th:src="${imagenesNivel['4']}" alt="Ilustración de siluetas con prendas">
+            </div>
+        </div>
+    </section>
+
+    <section class="seccion seccion--tarjeta">
+        <div class="seccion__cabecera seccion__cabecera--fila">
+            <div>
+                <span class="etiqueta etiqueta--amarillo">Nivel 5</span>
+                <h2>Estilo personal</h2>
+            </div>
+            <img class="icono-seccion" th:src="${imagenesNivel['5']}" alt="Ilustración de estilos de moda">
+        </div>
+        <div class="rejilla rejilla--estilos">
+            <article class="mini-tarjeta" th:each="estilo : ${estilos}">
+                <h3 th:text="${estilo.titulo}">Casual</h3>
+                <p th:text="${estilo.descripcion}"></p>
+                <h4>Claves</h4>
+                <ul class="lista-ticks lista-ticks--pequena">
+                    <li th:each="clave : ${estilo.claves}" th:text="${clave}"></li>
+                </ul>
+                <p class="nota" th:text="'Prendas: ' + ${estilo.prendasTexto}"></p>
+            </article>
+        </div>
+    </section>
+
+    <section class="llamado">
+        <h2>Tu catálogo personal está listo</h2>
+        <p>Revisa "Mi estilo, mi esencia": 8 secciones con ideas de cortes, colores, prendas, outfits, accesorios y consejos.</p>
+        <div class="llamado__acciones">
+            <a class="boton boton--grande" th:href="@{/app/catalogo}">Abrir mi catálogo</a>
+            <a class="boton boton--suave boton--grande" th:href="@{/app}">Volver a mi espacio</a>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{comunes :: pie}"></footer>
+</body>
+</html>

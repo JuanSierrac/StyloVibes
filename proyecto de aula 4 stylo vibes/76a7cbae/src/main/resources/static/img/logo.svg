@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" role="img" aria-label="Stylo Vibes">
+    <path d="M20 5.5c1.5 7.1 4.9 10.5 12 12-7.1 1.5-10.5 4.9-12 12-1.5-7.1-4.9-10.5-12-12 7.1-1.5 10.5-4.9 12-12Z" fill="#FFFDF8"/>
+    <path d="M30.2 24.4c.6 3.1 1.7 4.2 4.8 4.8-3.1.6-4.2 1.7-4.8 4.8-.6-3.1-1.7-4.2-4.8-4.8 3.1-.6 4.2-1.7 4.8-4.8Z" fill="#FFFDF8" opacity="0.92"/>
+    <circle cx="12.4" cy="29.2" r="2.1" fill="#FFFDF8" opacity="0.75"/>
+</svg>
