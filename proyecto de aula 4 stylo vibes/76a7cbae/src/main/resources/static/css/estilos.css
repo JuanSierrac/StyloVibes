@@ -29,7 +29,7 @@
     --fuente: "Avenir Next", "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 
-* {
+*, *::before, *::after {
     box-sizing: border-box;
 }
 
@@ -910,22 +910,29 @@ ul, ol { margin: 0 0 1rem; padding-left: 1.2rem; }
     border: 1px solid var(--linea);
     border-radius: var(--radio);
     background: var(--blanco);
-    padding: 2rem 2rem;
+    padding: 2.2rem 2.5rem 2.6rem; /* Más aire arriba y abajo */
     box-shadow: var(--sombra-suave);
     margin: 0;
+    width: 100%;
+    min-inline-size: 0; /* Evita que el fieldset crezca más de la cuenta */
 }
 
 .pregunta__titulo {
+    float: left; /* Fuerza al <legend> a entrar dentro del recuadro blanco */
+    width: 100%;
     display: flex;
-    gap: 0.7rem;
-    align-items: flex-start;
+    gap: 0.75rem;
+    align-items: center;
     font-family: "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
-    font-size: 1.08rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--tinta);
     padding: 0;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
+
 
 .pregunta__numero {
     width: 26px;
@@ -936,11 +943,17 @@ ul, ol { margin: 0 0 1rem; padding-left: 1.2rem; }
     font-size: 0.8rem;
     display: grid;
     place-items: center;
-    flex-shrink: 0;
+    flex-shrink: 0; 
     margin-top: 1px;
 }
 
-.pregunta__ayuda { font-size: 0.84rem; color: var(--tinta-suave); margin: 0 0 0.6rem 2.1rem; }
+.pregunta__ayuda { 
+    clear: both; 
+    font-size: 0.88rem; 
+    color: var(--tinta-suave); 
+    margin: 0 0 1.2rem 2.25rem; 
+    
+}
 
 .opciones {
     display: grid;
@@ -961,6 +974,13 @@ ul, ol { margin: 0 0 1rem; padding-left: 1.2rem; }
     cursor: pointer;
     font-size: 0.93rem;
     transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.opcion__texto {
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .opcion:hover { border-color: var(--lila); transform: translateY(-1px); }
